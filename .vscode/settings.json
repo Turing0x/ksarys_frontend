@@ -1,3 +1,8 @@
 {
-    "editor.fontFamily": "Cascadia Code"
+  "angular-schematics.schematicsDefaultOptions": {
+    "angular-*": {
+      "externalTemplate": true,
+      "inlineStyle": false
+    }
+  }
 }

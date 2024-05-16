@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { AuthService } from './auth/utils/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,21 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'ksarys_frontend';
+
+export class AppComponent implements OnInit {
+
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    const lastPath = localStorage.getItem('lastPath');
+  
+    if (!token || !lastPath) {
+      this.router.navigateByUrl('auth');
+      this.authService.logout();
+      return;
+    }
+  
+  }
 }

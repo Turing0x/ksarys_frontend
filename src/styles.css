@@ -1,4 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "OpenSans";
+  src: url("./assets/fonts/OpenSans-VariableFont.ttf") format("truetype");
+  font-display: swap;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+  font-family: "OpenSans";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fafafd;
+}
+
+input,
+select {
+  padding-left: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+input:hover,
+input:focus {
+  border: 1px solid #09f;
+  outline: none;
+}
+
+input::placeholder {
+  color: #9ea2a6;
+  font-size: 14px;
+}

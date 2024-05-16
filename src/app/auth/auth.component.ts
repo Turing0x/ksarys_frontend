@@ -31,18 +31,18 @@ export class AuthComponent {
 
   public loginForm: FormGroup = this.fb.group({
     username: ['Raulito', [Validators.required, Validators.minLength(3)]],
-    password: ['123', [Validators.required, Validators.minLength(3)]]
+    password: ['0000', [Validators.required, Validators.minLength(3)]]
   });
 
   onSubmit() {
 
     const { username, password } = this.loginForm.value;
     this.authService.login({ username, password }).subscribe(
-      success => {
+      response => {
 
-        if (!success) {
-          Swal.fire('Error de Inicio de Sesión',
-            'Datos incorrectos', 'error');
+        if (!response.success) {
+          Swal.fire('Inicio de Sesión',
+            response.api_message, 'error');
           return;
         }
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { AuthStatus } from '../interfaces/auth-status.interface';
@@ -37,13 +37,17 @@ export class AuthService {
     this._authStatus.set(AuthStatus.notAuthenticated);
   }
 
-  login(user: { username: string, password: string }): Observable<boolean> {
+  login(user: { username: string, password: string }): Observable<ServerResponse> {
     this._authStatus.set(AuthStatus.checking);
     return this.http.post<ServerResponse>(`${this.url}/signin`, user, {
       headers: this.httpHeaders
     }).pipe(
-      map(resp => resp.data),
-      map(({user, token}) => this.saveInfoAsLogin(user, token)),
+      tap(resp => {
+        if (resp.success) {
+          const { user, token } = resp.data;
+          this.saveInfoAsLogin(user, token);
+        }
+      }),
       catchError(e => {
         Swal.fire(
             'Error Interno',

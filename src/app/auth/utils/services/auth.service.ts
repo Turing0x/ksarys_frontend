@@ -5,8 +5,8 @@ import Swal from 'sweetalert2';
 
 import { AuthStatus } from '../interfaces/auth-status.interface';
 import { ServerResponse } from '../interfaces/login-response.interface';
-import { User } from '../interfaces/user.interface';
 import { Environments } from '../../../environments/env';
+import { User } from '../../../dashboard/interfaces/system-user.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -1,0 +1,18 @@
+.btn-empty-list {
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 200px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: #2262c6;
+  color: white;
+  gap: 10px;
+}
+
+.btn-empty-list:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}

@@ -2,21 +2,22 @@ main {
   display: flex;
   flex-direction: row;
   height: 100vh;
-  overflow-y: auto;
 }
 
 .left {
   display: flex;
   flex-direction: column;
   background-color: #2e2559;
-  width: 350px;
+  width: 25%;
   height: 100%;
   padding: 20px 30px;
   overflow-y: auto;
 }
 
 .right {
-  width: 100%;
+  width: 75%;
+  height: 100%;
+  padding: 20px 30px;
 }
 
 .accordion-item {

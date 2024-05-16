@@ -8,4 +8,29 @@
   font-family: "OpenSans";
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fafafd;
+}
+
+input,
+select {
+  padding-left: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+input:hover,
+input:focus {
+  border: 1px solid #09f;
+  outline: none;
+}
+
+input::placeholder {
+  color: #9ea2a6;
+  font-size: 14px;
 }

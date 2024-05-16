@@ -1,4 +1,4 @@
-import { User } from "./user.interface";
+import { User } from "../../../dashboard/interfaces/system-user.interface";
 
 export interface ServerResponse {
   status: number;

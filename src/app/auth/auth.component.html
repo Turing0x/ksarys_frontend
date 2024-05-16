@@ -1,0 +1,18 @@
+<div class="main-container">
+  <div class="card-form">
+    <form [formGroup]="loginForm">
+      <h2>Iniciar Sesión</h2>
+      <input
+        formControlName="username"
+        placeholder="Nombre de usuario"
+        type="text"
+      />
+      <input
+        formControlName="password"
+        placeholder="CLave de acceso"
+        type="password"
+      />
+      <button (click)="onSubmit()">Acceder</button>
+    </form>
+  </div>
+</div>

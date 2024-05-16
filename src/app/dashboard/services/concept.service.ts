@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
-import { Environments } from '../../../environments/env';
 import { ServerRespConcept } from '../interfaces/server-resp.interface';
 import { Concept } from '../interfaces/concepts.interface';
+import { Environments } from '../../environments/env';
 
 @Injectable({
   providedIn: 'root'

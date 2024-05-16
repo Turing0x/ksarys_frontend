@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Environments } from '../../../environments/env';
 import { Clasification } from '../interfaces/clasifications.interface';
 import { Observable, map, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ServerRespClasification } from '../interfaces/server-resp.interface';
+import { Environments } from '../../environments/env';
 
 @Injectable({
   providedIn: 'root'

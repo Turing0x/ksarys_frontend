@@ -44,8 +44,8 @@ export const menu_items: MenuItem[] = [
     name: 'Datos Globales',
     items: [
       {
-        name: 'Entidades',
-        path: ''
+        name: 'Registro de Entidades',
+        path: './entities'
       },
       {
         name: 'Utensilios',

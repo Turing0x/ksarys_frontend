@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'shared-loading-data',
   standalone: true,
   imports: [
-    CommonModule,
+    NgOptimizedImage,
+    CommonModule
   ],
   templateUrl: './loading-data.component.html',
   styleUrl: './loading-data.component.css',

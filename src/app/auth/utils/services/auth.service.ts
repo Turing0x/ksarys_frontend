@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
-import Swal from 'sweetalert2';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
+
 
 import { AuthStatus } from '../interfaces/auth-status.interface';
 import { ServerResponse } from '../interfaces/login-response.interface';
-import { Environments } from '../../../environments/env';
 import { User } from '../../../dashboard/interfaces/system-user.interface';
+import Swal from 'sweetalert2';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
 
   private http = inject(HttpClient);
 
-  private url: string = `${Environments.baseUrl}/users`
+  private url: string = `${environment.baseUrl}/users`
   private httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
   })
@@ -37,13 +38,17 @@ export class AuthService {
     this._authStatus.set(AuthStatus.notAuthenticated);
   }
 
-  login(user: { username: string, password: string }): Observable<boolean> {
+  login(user: { username: string, password: string }): Observable<ServerResponse> {
     this._authStatus.set(AuthStatus.checking);
     return this.http.post<ServerResponse>(`${this.url}/signin`, user, {
       headers: this.httpHeaders
     }).pipe(
-      map(resp => resp.data),
-      map(({user, token}) => this.saveInfoAsLogin(user, token)),
+      tap(resp => {
+        if (resp.success) {
+          const { user, token } = resp.data;
+          this.saveInfoAsLogin(user, token);
+        }
+      }),
       catchError(e => {
         Swal.fire(
             'Error Interno',

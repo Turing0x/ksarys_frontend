@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
-import Swal from 'sweetalert2';
+
 
 import { AuthStatus } from '../interfaces/auth-status.interface';
 import { ServerResponse } from '../interfaces/login-response.interface';
-import { Environments } from '../../../environments/env';
 import { User } from '../../../dashboard/interfaces/system-user.interface';
+import Swal from 'sweetalert2';
+import { environment } from '../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
 
   private http = inject(HttpClient);
 
-  private url: string = `${Environments.baseUrl}/users`
+  private url: string = `${environment.baseUrl}/users`
   private httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
   })

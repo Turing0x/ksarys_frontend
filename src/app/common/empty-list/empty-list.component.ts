@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
   selector: 'shared-empty-list',
   standalone: true,
   imports: [
+    NgOptimizedImage,
     CommonModule,
     RouterModule
   ],

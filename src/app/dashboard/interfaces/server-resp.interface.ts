@@ -1,5 +1,6 @@
 import { Clasification } from "./clasifications.interface";
 import { Concept } from "./concepts.interface";
+import { Dependent } from "./dependents";
 import { DPA } from "./dpa";
 import { Entity } from "./entity.interface";
 import { Product } from "./product.interface";
@@ -39,4 +40,10 @@ export interface ServerRespDPA {
   success:     boolean;
   api_message: string;
   data:        DPA[];
+}
+
+export interface ServerRespDepen {
+  success:     boolean;
+  api_message: string;
+  data:        Dependent[];
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -87,7 +87,7 @@ export class UserManagerComponent implements OnInit, OnDestroy {
       confirmButtonText: "Sí, cámbialo!"
     }).then((result) => {
       if (result.isConfirmed) {
-        const modify: User = {...user, Activo: !user.Activo }
+        const modify: User = { ID: user.ID };
         this.userService.changeActive(modify).subscribe(
           success => {
             if (success) {

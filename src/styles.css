@@ -92,6 +92,7 @@ form input {
   border: none;
   text-align: left;
   overflow-x: auto;
+  height: 400px;
 }
 
 .table-widget table {
@@ -175,6 +176,24 @@ form input {
 .info:hover {
   background-color: #1c7ead;
   color: white !important;
+}
+
+.btn-act.change:hover {
+  background-color: #5fb0fb;
+  color: white !important;
+}
+
+.active {
+  background-color: #219653;
+  border-radius: 10px;
+  padding: 5px 15px;
+  color: white;
+}
+.inactive {
+  background-color: #f85653;
+  border-radius: 10px;
+  padding: 5px 15px;
+  color: black;
 }
 
 select {

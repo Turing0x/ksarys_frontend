@@ -1,25 +1,25 @@
 export const menu_items: MenuItem[] = [
   {
     icon: '../../../../assets/icons/users-group.svg',
-    name: 'Control del Personal',
+    name: 'Gestión del Personal',
     items: [
       {
-        name: 'Registro de Usuarios',
+        name: 'Usuarios del Sistema',
         path: './users'
       },
       {
-        name: 'Dependientes',
+        name: 'Control de Dependientes',
         path: './dependents'
       },
       {
-        name: 'Trabajadores',
+        name: 'Control de Trabajadores',
         path: './workers'
       },
     ]
   },
   {
     icon: '../../../../assets/icons/products.svg',
-    name: 'Control de Productos',
+    name: 'Gestión de Productos',
     items: [
       {
         name: 'Clasificaciones',

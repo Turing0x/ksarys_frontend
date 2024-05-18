@@ -12,8 +12,18 @@
   </span>
   <form [formGroup]="entityForm">
     <span>
-      <input name="Codigo" formControlName="Codigo" placeholder="Código" />
-      <input name="Nombre" formControlName="Nombre" placeholder="Nombre" />
+      <input
+        class="onlyNum"
+        name="Codigo"
+        formControlName="Codigo"
+        placeholder="Código"
+      />
+      <input
+        class="nonNum"
+        name="Nombre"
+        formControlName="Nombre"
+        placeholder="Nombre"
+      />
       <select
         name="Municipio"
         formControlName="Municipio"
@@ -29,8 +39,18 @@
       </select>
     </span>
     <span>
-      <input name="Cuenta" formControlName="Cuenta" placeholder="Cuenta" />
-      <input name="NIT" formControlName="NIT" placeholder="NIT" />
+      <input
+        class="onlyNum"
+        name="Cuenta"
+        formControlName="Cuenta"
+        placeholder="Cuenta"
+      />
+      <input
+        class="onlyNum"
+        name="NIT"
+        formControlName="NIT"
+        placeholder="NIT"
+      />
       <input
         name="Direccion"
         formControlName="Direccion"
@@ -39,11 +59,13 @@
     </span>
     <span>
       <input
+        class="nonNum"
         name="Director"
         formControlName="Director"
         placeholder="Director"
       />
       <input
+        class="nonNum"
         name="Actividad"
         formControlName="Actividad"
         placeholder="Actividad"

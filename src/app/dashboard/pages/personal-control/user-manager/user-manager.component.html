@@ -1,4 +1,4 @@
-<h1>Registro de Usuarios</h1>
+<h1>Usuarios del Sistema</h1>
 
 <span class="form">
   <span style="display: flex; justify-content: space-between">
@@ -7,7 +7,7 @@
   </span>
   <form [formGroup]="userForm">
     <span>
-      <input formControlName="Nombre" placeholder="Nombre" />
+      <input class="nonNum" formControlName="Nombre" placeholder="Nombre" />
       <input formControlName="ClaveAcceso" placeholder="Clave de Acceso" />
     </span>
     <span>
@@ -37,6 +37,7 @@
         <th>Nombre</th>
         <th>Cargo que Desempeña</th>
         <th>Correo Electrónico</th>
+        <th>Estado</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -47,7 +48,46 @@
         <td>{{ user.Cargo }}</td>
         <td>{{ user.Correo }}</td>
         <td>
+          <span
+            [ngClass]="{
+              active: user.Activo,
+              inactive: !user.Activo
+            }"
+          >
+            {{ user.Activo ? "Activo" : "Inactivo" }}
+          </span>
+        </td>
+        <td>
           <div class="actions">
+            <button
+              (click)="changeActive(user)"
+              class="btn-act change"
+              title="Cambiar acceso al sistema"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-replace"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M3 3m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"
+                />
+                <path
+                  d="M15 15m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"
+                />
+                <path d="M21 11v-3a2 2 0 0 0 -2 -2h-6l3 3m0 -6l-3 3" />
+                <path d="M3 13v3a2 2 0 0 0 2 2h6l-3 -3m0 6l3 -3" />
+              </svg>
+            </button>
+
             <button class="btn-act edit" (click)="putTuEdit(user)">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

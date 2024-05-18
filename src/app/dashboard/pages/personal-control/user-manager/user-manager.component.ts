@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -22,8 +22,7 @@ import { Subject, takeUntil } from 'rxjs';
   ],
   templateUrl: './user-manager.component.html',
 })
-
-export class UserManagerComponent implements OnInit, OnDestroy {
+export class UserManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$ = new Subject<void>();
 
@@ -47,6 +46,10 @@ export class UserManagerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.refreshUserList();
+  }
+
+  ngAfterViewInit(): void {
+    this.addNumberPreventionListener();
   }
 
   onSubmit() {
@@ -151,6 +154,17 @@ export class UserManagerComponent implements OnInit, OnDestroy {
     this.userForm.controls['Nombre'].setValue(user.Nombre)
     this.userForm.controls['Correo'].setValue(user.Correo)
     this.userForm.controls['Cargo'].setValue(user.Cargo)
+  }
+
+  addNumberPreventionListener() {
+    const inputs = document.querySelectorAll('.nonNum') as NodeListOf<HTMLInputElement>;
+    inputs.forEach(input => {
+      input.addEventListener('keypress', (e: KeyboardEvent) => {
+        if (input.classList.contains('nonNum') &&!Number.isNaN(Number(e.key))) {
+          e.preventDefault();
+        }
+      });
+    });
   }
 
   ngOnDestroy(): void {

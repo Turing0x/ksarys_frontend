@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
@@ -23,8 +23,7 @@ import { ServerRespDPA } from '../../../interfaces/server-resp.interface';
   ],
   templateUrl: './entities-manager.component.html',
 })
-  
-export class EntitiesManagerComponent implements OnDestroy{
+export class EntitiesManagerComponent implements OnDestroy, OnInit, AfterViewInit{
   
   private destroy$ = new Subject<void>();
 
@@ -58,6 +57,10 @@ export class EntitiesManagerComponent implements OnDestroy{
     this.dpaResults$ = this.dpaService.getAllDPAS();
   }
 
+  ngAfterViewInit(): void {
+    this.addNumberPreventionListener();
+  }
+
   onSubmit() {
     Swal.fire({
       title: "Estás seguro?",
@@ -80,13 +83,6 @@ export class EntitiesManagerComponent implements OnDestroy{
         }
       }
     });
-  }
-
-  private handleSuccessfulResponse(success: boolean) {
-    if (success) {
-      this.refreshEntityList();
-      this.resetForm();
-    }
   }
 
   deleteEntity(id: string) {
@@ -158,6 +154,27 @@ export class EntitiesManagerComponent implements OnDestroy{
   onChangeDPA() {
     const select = document.getElementById("dpa-name") as HTMLSelectElement;
     this.entityForm.controls['Municipio'].setValue(select.value);
+  }
+
+  addNumberPreventionListener() {
+    const inputs = document.querySelectorAll('.nonNum,.onlyNum') as NodeListOf<HTMLInputElement>;
+    inputs.forEach(input => {
+      input.addEventListener('keypress', (e: KeyboardEvent) => {
+        if (input.classList.contains('nonNum') &&!Number.isNaN(Number(e.key))) {
+          e.preventDefault();
+        }
+        if (input.classList.contains('onlyNum') && Number.isNaN(Number(e.key))) {
+          e.preventDefault();
+        }
+      });
+    });
+  }
+
+  private handleSuccessfulResponse(success: boolean) {
+    if (success) {
+      this.refreshEntityList();
+      this.resetForm();
+    }
   }
 
   ngOnDestroy(): void {

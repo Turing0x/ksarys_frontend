@@ -10,11 +10,13 @@ import { EntitesService } from '../../../services/entites.service';
 import { Entity } from '../../../interfaces/entity.interface';
 import { LoadingDataComponent } from '../../../../common/loading-data/loading-data.component';
 import { ServerRespDPA } from '../../../interfaces/server-resp.interface';
+import { CharacterDetectDirective } from '../../../../directive/character-detect.directive';
 
 @Component({
   selector: 'app-entities-manager',
   standalone: true,
   imports: [
+    CharacterDetectDirective,
     ReactiveFormsModule,
     LoadingDataComponent,
     EmptyListComponent,
@@ -23,7 +25,7 @@ import { ServerRespDPA } from '../../../interfaces/server-resp.interface';
   ],
   templateUrl: './entities-manager.component.html',
 })
-export class EntitiesManagerComponent implements OnDestroy, OnInit, AfterViewInit{
+export class EntitiesManagerComponent implements OnDestroy, OnInit {
   
   private destroy$ = new Subject<void>();
 
@@ -55,10 +57,6 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit, AfterViewIni
   ngOnInit(): void {
     this.refreshEntityList();
     this.dpaResults$ = this.dpaService.getAllDPAS();
-  }
-
-  ngAfterViewInit(): void {
-    this.addNumberPreventionListener();
   }
 
   onSubmit() {
@@ -154,20 +152,6 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit, AfterViewIni
   onChangeDPA() {
     const select = document.getElementById("dpa-name") as HTMLSelectElement;
     this.entityForm.controls['Municipio'].setValue(select.value);
-  }
-
-  addNumberPreventionListener() {
-    const inputs = document.querySelectorAll('.nonNum,.onlyNum') as NodeListOf<HTMLInputElement>;
-    inputs.forEach(input => {
-      input.addEventListener('keypress', (e: KeyboardEvent) => {
-        if (input.classList.contains('nonNum') &&!Number.isNaN(Number(e.key))) {
-          e.preventDefault();
-        }
-        if (input.classList.contains('onlyNum') && Number.isNaN(Number(e.key))) {
-          e.preventDefault();
-        }
-      });
-    });
   }
 
   private handleSuccessfulResponse(success: boolean) {

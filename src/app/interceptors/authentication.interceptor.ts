@@ -4,7 +4,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
   const userToken = localStorage.getItem('token');
   const headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'access-token': userToken!
+    'access-token': userToken ?? ''
   });
 
   const modifiedReq = req.clone({ headers: headers });

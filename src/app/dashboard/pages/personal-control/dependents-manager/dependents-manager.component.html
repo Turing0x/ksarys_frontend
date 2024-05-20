@@ -7,20 +7,12 @@
   </span>
   <form [formGroup]="dependentForm">
     <span>
-      <input formControlName="Nombre" placeholder="Nombre" />
-      <input formControlName="ClaveAcceso" placeholder="Clave de Acceso" />
-    </span>
-    <span>
-      <select value="Invitado" (change)="onChangeCat()" id="role-types">
-        @for (role of roles_list; track $index) {
-        <option value="{{ role[0] }}">
-          {{ role[0] }}
-        </option>
-        }
-      </select>
+      <input formControlName="IdEntidad" placeholder="Entidad" />
+      <input formControlName="IdAreaEntidad" placeholder="Área de la Entidad" />
       <input
-        formControlName="Correo"
-        placeholder="Dirección de Correo Electrónico"
+        characterDetect
+        formControlName="Nombre"
+        placeholder="Nombre del Dependiente"
       />
     </span>
   </form>

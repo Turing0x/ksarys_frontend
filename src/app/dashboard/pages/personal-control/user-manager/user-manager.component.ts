@@ -22,7 +22,7 @@ import { Subject, takeUntil } from 'rxjs';
   ],
   templateUrl: './user-manager.component.html',
 })
-export class UserManagerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UserManagerComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
@@ -46,10 +46,6 @@ export class UserManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.refreshUserList();
-  }
-
-  ngAfterViewInit(): void {
-    this.addNumberPreventionListener();
   }
 
   onSubmit() {
@@ -154,17 +150,6 @@ export class UserManagerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userForm.controls['Nombre'].setValue(user.Nombre)
     this.userForm.controls['Correo'].setValue(user.Correo)
     this.userForm.controls['Cargo'].setValue(user.Cargo)
-  }
-
-  addNumberPreventionListener() {
-    const inputs = document.querySelectorAll('.nonNum') as NodeListOf<HTMLInputElement>;
-    inputs.forEach(input => {
-      input.addEventListener('keypress', (e: KeyboardEvent) => {
-        if (input.classList.contains('nonNum') &&!Number.isNaN(Number(e.key))) {
-          e.preventDefault();
-        }
-      });
-    });
   }
 
   ngOnDestroy(): void {

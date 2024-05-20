@@ -28,8 +28,7 @@ export class UserService {
   }
 
   saveUser(user: object): Observable<ServerRespUser> {
-    return this.http.post<ServerRespUser>(this.url, user)
-      ;
+    return this.http.post<ServerRespUser>(this.url, user);
   }
 
   changeActive(user: object): Observable<boolean> {

@@ -9,11 +9,13 @@ import { EmptyListComponent } from '../../../../common/empty-list/empty-list.com
 import { LoadingDataComponent } from '../../../../common/loading-data/loading-data.component';
 import { Dependent } from '../../../interfaces/dependents';
 import { DependentsService } from '../../../services/dependents.service';
+import { CharacterDetectDirective } from '../../../../directive/character-detect.directive';
 
 @Component({
   selector: 'app-dependents-manager',
   standalone: true,
   imports: [
+    CharacterDetectDirective,
     ReactiveFormsModule,
     LoadingDataComponent,
     EmptyListComponent,

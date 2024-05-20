@@ -13,23 +13,20 @@
   <form [formGroup]="entityForm">
     <span>
       <input
+        characterDetect
         class="onlyNum"
         name="Codigo"
         formControlName="Codigo"
         placeholder="Código"
       />
       <input
+        characterDetect
         class="nonNum"
         name="Nombre"
         formControlName="Nombre"
         placeholder="Nombre"
       />
-      <select
-        name="Municipio"
-        formControlName="Municipio"
-        (change)="onChangeDPA()"
-        id="dpa-name"
-      >
+      <select name="Municipio" formControlName="Municipio" id="dpa-name">
         @if (dpaResults$ | async; as resultObj) { @for (dpa of resultObj.data;
         track $index) {
         <option [value]="dpa.Nombre">
@@ -40,18 +37,21 @@
     </span>
     <span>
       <input
+        characterDetect
         class="onlyNum"
         name="Cuenta"
         formControlName="Cuenta"
         placeholder="Cuenta"
       />
       <input
+        characterDetect
         class="onlyNum"
         name="NIT"
         formControlName="NIT"
         placeholder="NIT"
       />
       <input
+        characterDetect
         name="Direccion"
         formControlName="Direccion"
         placeholder="Direccion"
@@ -59,12 +59,14 @@
     </span>
     <span>
       <input
+        characterDetect
         class="nonNum"
         name="Director"
         formControlName="Director"
         placeholder="Director"
       />
       <input
+        characterDetect
         class="nonNum"
         name="Actividad"
         formControlName="Actividad"

@@ -5,6 +5,7 @@ import { DPA } from "./dpa";
 import { Entity } from "./entity.interface";
 import { Product } from "./product.interface";
 import { User } from "./system-user.interface";
+import { SysWorker } from "./worker";
 
 export interface ServerRespUser {
   success:     boolean;
@@ -46,4 +47,10 @@ export interface ServerRespDepen {
   success:     boolean;
   api_message: string;
   data:        Dependent[];
+}
+
+export interface ServerRespWorker {
+  success:     boolean;
+  api_message: string;
+  data:        SysWorker[];
 }

@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 
 
 import { environment } from '../../../environments/environment.development';
-import { ServerRespEntity } from '../interfaces/server-resp.interface';
+import { ServerRespEntity } from '../../../assets/globals/server-resp.interface';
 import { Entity } from '../interfaces/entity.interface';
 
 @Injectable({
@@ -15,19 +15,6 @@ export class EntitesService {
   private http = inject(HttpClient)
   
   private url: string = `${environment.baseUrl}/entity`
-  private token!: string;
-
-  private get httpHeaders() {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'access-token': this.token
-    });
-  }
-
-  constructor() {
-    const data = localStorage.getItem('token')
-    if (data) this.token = data
-  }
 
   getAllEntities(): Observable<Entity[]>{
     return this.http.get<ServerRespEntity>(this.url)
@@ -48,7 +35,6 @@ export class EntitesService {
   }
   
   deleteEntityById(id: string): Observable<boolean> {
-    console.log(id);
     return this.http.delete<ServerRespEntity>(`${this.url}/${id}`)
       .pipe(map(response => response.success === true));
   }

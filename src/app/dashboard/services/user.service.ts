@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 
 
 import { User } from '../interfaces/system-user.interface';
-import { ServerRespUser } from '../interfaces/server-resp.interface';
+import { ServerRespUser } from '../../../assets/globals/server-resp.interface';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({

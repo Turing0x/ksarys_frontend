@@ -1,19 +1,23 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { Subject, Observable, tap, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 
+import { ServerRespDPA } from '../../../../../assets/globals/server-resp.interface';
 import { DpaService } from '../../../services/dpa.service';
 import { EmptyListComponent } from '../../../../common/empty-list/empty-list.component';
-import { EntitesService } from '../../../services/entites.service';
-import { Entity } from '../../../interfaces/entity.interface';
 import { LoadingDataComponent } from '../../../../common/loading-data/loading-data.component';
-import { ServerRespDPA } from '../../../../../assets/globals/server-resp.interface';
 import { CharacterDetectDirective } from '../../../../directive/character-detect.directive';
+import { SalesService } from '../../../services/sales.service';
+import { Sale } from '../../../interfaces/sales.interface';
+import { Product } from '../../../interfaces/product.interface';
+import { ProductsService } from '../../../services/product.service';
+import { Dependent } from '../../../interfaces/dependents';
+import { DependentsService } from '../../../services/dependents.service';
 
 @Component({
-  selector: 'app-entities-manager',
+  selector: 'app-sales',
   standalone: true,
   imports: [
     CharacterDetectDirective,
@@ -23,40 +27,45 @@ import { CharacterDetectDirective } from '../../../../directive/character-detect
     CommonModule,
     FormsModule
   ],
-  templateUrl: './entities-manager.component.html',
+  templateUrl: './sales.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EntitiesManagerComponent implements OnDestroy, OnInit {
-  
+export class SalesComponent implements OnDestroy, OnInit {
+
   private destroy$ = new Subject<void>();
 
   loadingData: boolean | undefined = true;
   editing: boolean = false;
-  
-  private entitiesService = inject(EntitesService);
+
+  private salesService = inject(SalesService);
+  private productService = inject(ProductsService);
+  private dependetService = inject(DependentsService);
   private dpaService = inject(DpaService);
 
   private fb = inject(FormBuilder);
   private cdRef = inject(ChangeDetectorRef);
 
   public dpaResults$!: Observable<ServerRespDPA>;
+  public prodResults$!: Observable<Product[]>;
+  public depResults$!: Observable<Dependent[]>;
 
-  public entitiesList: Entity[] = [];
+  public salesList: Sale[] = [];
   public entityForm: FormGroup = this.fb.group({
     Id: ['', Validators.required],
-    Codigo: ['', Validators.required],
-    Nombre: ['', Validators.required],
-    Municipio: ['', Validators.required],
-    Direccion: ['', Validators.required],
-    Director: ['', Validators.required],
-    Actividad: ['', Validators.required],
-    Cuenta: ['', Validators.required],
-    NIT: ['', Validators.required],
-    IdDpa: 0,
+    Fecha: [Date.now(), Validators.required],
+    Mesa: ['1', Validators.required],
+    Personas: ['1', Validators.required],
+    IdDependiente: ['', Validators.required],
+    Descuento: ['', Validators.required],
+    Producto: ['', Validators.required],
+    prod_cant: ['', Validators.required],
   });
 
   ngOnInit(): void {
-    this.refreshEntityList();
+    this.refreshSaleList();
     this.dpaResults$ = this.dpaService.getAllDPAS();
+    this.prodResults$ = this.productService.getAllProducts();
+    this.depResults$ = this.dependetService.getAllDependents();
   }
 
   onSubmit() {
@@ -71,11 +80,11 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if (!this.editing) {
-          this.entitiesService.saveEntity(this.entityForm.value).pipe(
+          this.salesService.saveSale(this.entityForm.value).pipe(
             tap((resp) => this.handleSuccessfulResponse(resp.success))
           ).subscribe();
         } else {
-          this.entitiesService.editEntity(this.entityForm.value).pipe(
+          this.salesService.editSale(this.entityForm.value).pipe(
             tap((resp) => this.handleSuccessfulResponse(resp.success))
           ).subscribe();
         }
@@ -83,7 +92,7 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit {
     });
   }
 
-  deleteEntity(id: string) {
+  deleteSale(id: string) {
     Swal.fire({
       title: "Estás seguro?",
       text: "Ésta acción eliminará por completo al usuario del sistema.",
@@ -94,10 +103,10 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit {
       confirmButtonText: "Confirmar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.entitiesService.deleteEntityById(id.toString()).subscribe(
+        this.salesService.deleteSaleById(id.toString()).subscribe(
           success => {
             if (success) {
-              this.refreshEntityList();
+              this.refreshSaleList();
             }
           }
         )
@@ -105,14 +114,14 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit {
     });
   }
 
-  refreshEntityList() {
-    this.entitiesService.getAllEntities()
+  refreshSaleList() {
+    this.salesService.getAllSales()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
       list => {
         if (list.length !== 0) {
           this.loadingData = false;
-          this.entitiesList = list;
+          this.salesList = list;
         } else {
           this.loadingData = undefined;
         }
@@ -121,7 +130,7 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit {
     )
   }
 
-  putTuEdit(entity: Entity, edit = false) {
+  putTuEdit(entity: Sale, edit = false) {
     if (!edit) {
       this.editing = false;
       Object.entries(entity).forEach(value => {
@@ -149,14 +158,9 @@ export class EntitiesManagerComponent implements OnDestroy, OnInit {
     this.entityForm.enable();
   }
 
-  onChangeDPA() {
-    const select = document.getElementById("dpa-name") as HTMLSelectElement;
-    this.entityForm.controls['Municipio'].setValue(select.value);
-  }
-
   private handleSuccessfulResponse(success: boolean) {
     if (success) {
-      this.refreshEntityList();
+      this.refreshSaleList();
       this.resetForm();
     }
   }

@@ -65,6 +65,16 @@ export const menu_items: MenuItem[] = [
       },
     ]
   },
+  {
+    icon: '../../../../assets/icons/opes.svg',
+    name: 'Operaciones',
+    items: [
+      {
+        name: 'Emisión de Comandas',
+        path: './sales'
+      },
+    ]
+  },
   
 ];
 

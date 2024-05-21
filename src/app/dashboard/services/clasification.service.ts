@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Clasification } from '../interfaces/clasifications.interface';
 import { Observable, map } from 'rxjs';
 
-import { ServerRespClasification } from '../interfaces/server-resp.interface';
+import { ServerRespClasification } from '../../../assets/globals/server-resp.interface';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({

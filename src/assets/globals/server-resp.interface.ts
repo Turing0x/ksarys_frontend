@@ -1,11 +1,12 @@
-import { Clasification } from "./clasifications.interface";
-import { Concept } from "./concepts.interface";
-import { Dependent } from "./dependents";
-import { DPA } from "./dpa";
-import { Entity } from "./entity.interface";
-import { Product } from "./product.interface";
-import { User } from "./system-user.interface";
-import { SysWorker } from "./worker";
+import { Clasification } from "../../app/dashboard/interfaces/clasifications.interface";
+import { Concept } from "../../app/dashboard/interfaces/concepts.interface";
+import { Dependent } from "../../app/dashboard/interfaces/dependents";
+import { DPA } from "../../app/dashboard/interfaces/dpa";
+import { Entity } from "../../app/dashboard/interfaces/entity.interface";
+import { Product } from "../../app/dashboard/interfaces/product.interface";
+import { Sale } from "../../app/dashboard/interfaces/sales.interface";
+import { User } from "../../app/dashboard/interfaces/system-user.interface";
+import { SysWorker } from "../../app/dashboard/interfaces/worker";
 
 export interface ServerRespUser {
   success:     boolean;
@@ -53,4 +54,10 @@ export interface ServerRespWorker {
   success:     boolean;
   api_message: string;
   data:        SysWorker[];
+}
+
+export interface ServerRespSale {
+  success:     boolean;
+  api_message: string;
+  data:        Sale[];
 }

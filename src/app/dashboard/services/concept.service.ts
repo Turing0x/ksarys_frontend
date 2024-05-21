@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { ServerRespConcept } from '../interfaces/server-resp.interface';
+import { ServerRespConcept } from '../../../assets/globals/server-resp.interface';
 import { Concept } from '../interfaces/concepts.interface';
 import { environment } from '../../../environments/environment.development';
 

@@ -1,0 +1,190 @@
+<h1>Emisión de Comandas</h1>
+
+<span class="form">
+  <span style="display: flex; justify-content: space-between">
+    <h3>Manejar Información</h3>
+    <span style="gap: 10px; display: flex">
+      <button (click)="resetForm()">Limpiar Datos</button>
+      <button [disabled]="entityForm.disabled" (click)="onSubmit()">
+        {{ editing === true ? "Editar" : "Guardar" }}
+      </button>
+    </span>
+  </span>
+  <form [formGroup]="entityForm">
+    <span>
+      <input
+        id="datePicker"
+        type="date"
+        name="Fecha"
+        formControlName="Fecha"
+        placeholder="Fecha"
+      />
+      <input
+        characterDetect
+        class="olyNum"
+        name="Mesa"
+        formControlName="Mesa"
+        placeholder="Mesa"
+      />
+      <input
+        characterDetect
+        class="olyNum"
+        name="Personas"
+        formControlName="Personas"
+        placeholder="Personas"
+      />
+    </span>
+    <span>
+      <select name="IdDependiente" formControlName="IdDependiente">
+        @if (depResults$ | async; as resultObj) { @for (dep of resultObj; track
+        $index) {
+        <option>{{ dep.Nombre }}</option>
+        }}
+      </select>
+      <input
+        characterDetect
+        class="onlyNum"
+        name="Descuento"
+        formControlName="Descuento"
+        placeholder="Descuento"
+      />
+    </span>
+    <span>
+      <input
+        placeholder="Seleccione el Producto"
+        formControlName="Producto"
+        name="Producto"
+        list="prod-list"
+      />
+      <datalist id="prod-list">
+        @if (prodResults$ | async; as resultObj) { @for (product of resultObj;
+        track $index) {
+        <option>{{ product.Nombre }}</option>
+        }}
+      </datalist>
+      <input
+        characterDetect
+        class="onlyNum"
+        name="Descuento"
+        formControlName="prod_cant"
+        placeholder="Cantidad del producto"
+      />
+    </span>
+  </form>
+</span>
+
+<section class="table-widget">
+  @if (loadingData === false) {
+  <table>
+    <caption>
+      Todos los Usuarios
+    </caption>
+    <thead>
+      <tr>
+        <th>Cantidad</th>
+        <th>Pedidos Realizados</th>
+        <th>Precio</th>
+        <th>Importe</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (entity of salesList; track $index) {
+      <tr>
+        <td>{{ entity.Personas }}</td>
+        <td>{{ entity.Mesa }}</td>
+        <td>{{ entity.Personas }}</td>
+        <td>{{ entity.Numero }}</td>
+        <td>
+          <div class="actions">
+            <button
+              class="btn-act info"
+              (click)="putTuEdit(entity)"
+              title="Ver toda la información de esta entidad"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-info-square-rounded"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 9h.01" />
+                <path d="M11 12h1v4h1" />
+                <path
+                  d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"
+                />
+              </svg>
+            </button>
+
+            <button
+              class="btn-act edit"
+              (click)="putTuEdit(entity, true)"
+              title="Editar la información de esta entidad"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-edit"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"
+                />
+                <path
+                  d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
+                />
+                <path d="M16 5l3 3" />
+              </svg>
+            </button>
+
+            <button
+              class="btn-act delete"
+              (click)="deleteSale(entity.Id!)"
+              title="Eliminar del sistema esta entidad"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-trash"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 7l16 0" />
+                <path d="M10 11l0 6" />
+                <path d="M14 11l0 6" />
+                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  }@else if (loadingData === true) {
+  <shared-loading-data></shared-loading-data>
+  }@else if (loadingData === undefined) {
+  <shared-empty-list></shared-empty-list>
+  }
+</section>

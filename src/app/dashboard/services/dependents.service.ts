@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { environment } from '../../../environments/environment.development';
-import { ServerRespDepen } from '../interfaces/server-resp.interface';
+import { ServerRespDepen } from '../../../assets/globals/server-resp.interface';
 import { Dependent } from '../interfaces/dependents';
 
 @Injectable({

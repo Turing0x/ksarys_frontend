@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { ServerRespWorker } from '../interfaces/server-resp.interface';
+import { ServerRespWorker } from '../../../assets/globals/server-resp.interface';
 import { SysWorker } from '../interfaces/worker';
 
 @Injectable({

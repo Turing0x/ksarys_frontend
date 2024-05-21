@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment.development';
-import { ServerRespDPA } from '../interfaces/server-resp.interface';
+import { ServerRespDPA } from '../../../assets/globals/server-resp.interface';
 import { DPA } from '../interfaces/dpa';
 
 @Injectable({

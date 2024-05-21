@@ -18,14 +18,15 @@ body {
 input,
 select {
   padding-left: 10px;
+  padding-right: 10px;
   border: none;
   border-radius: 5px;
   font-size: 14px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 input:hover,
-input:focus {
+input:focus,
+select:hover select:focus {
   border: 1px solid #09f;
   outline: none;
 }

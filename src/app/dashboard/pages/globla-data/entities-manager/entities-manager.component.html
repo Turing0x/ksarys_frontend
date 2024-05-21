@@ -1,100 +1,107 @@
-<h1>Control de Trabajadores</h1>
+<h1>Registro de Entidades</h1>
 
 <span class="form">
   <span style="display: flex; justify-content: space-between">
     <h3>Manejar Información</h3>
-    <button (click)="onSubmit()">Guardar</button>
+    <span style="gap: 10px; display: flex">
+      <button (click)="resetForm()">Limpiar Datos</button>
+      <button [disabled]="entityForm.disabled" (click)="onSubmit()">
+        {{ editing === true ? "Editar" : "Guardar" }}
+      </button>
+    </span>
   </span>
-  <form [formGroup]="userForm">
+  <form [formGroup]="entityForm">
     <span>
       <input
         characterDetect
         class="onlyNum"
-        formControlName="CI"
-        placeholder="No. Carnet de Identidad"
+        name="Codigo"
+        formControlName="Codigo"
+        placeholder="Código"
       />
       <input
         characterDetect
         class="nonNum"
+        name="Nombre"
         formControlName="Nombre"
-        placeholder="Nombre y Apellidos"
+        placeholder="Nombre"
       />
-      <select
-        formControlName="IdTipo"
-        value="Dirección"
-        (change)="onChangeCat()"
-        id="clas-types"
-      >
-        <option value="Dirección">Dirección</option>
-        <option value="Servicios">Servicios</option>
+      <select name="Municipio" formControlName="Municipio" id="dpa-name">
+        @if (dpaResults$ | async; as resultObj) { @for (dpa of resultObj.data;
+        track $index) {
+        <option [value]="dpa.Nombre">
+          {{ dpa.Nombre | titlecase }}
+        </option>
+        } }
       </select>
     </span>
     <span>
-      <select
-        formControlName="IdCargo"
-        value="Invitado"
-        (change)="onChangeCat()"
-        id="role-types"
-      >
-        @for (role of roles_list; track $index) {
-        <option value="{{ role[0] }}">
-          {{ role[0] }}
-        </option>
-        }
-      </select>
       <input
         characterDetect
         class="onlyNum"
-        formControlName="Telefono"
-        placeholder="Número de Teléfono"
+        name="Cuenta"
+        formControlName="Cuenta"
+        placeholder="Cuenta"
       />
       <input
         characterDetect
         class="onlyNum"
-        formControlName="Salario"
-        placeholder="Salario Básico"
+        name="NIT"
+        formControlName="NIT"
+        placeholder="NIT"
+      />
+      <input
+        characterDetect
+        name="Direccion"
+        formControlName="Direccion"
+        placeholder="Direccion"
+      />
+    </span>
+    <span>
+      <input
+        characterDetect
+        class="nonNum"
+        name="Director"
+        formControlName="Director"
+        placeholder="Director"
+      />
+      <input
+        characterDetect
+        class="nonNum"
+        name="Actividad"
+        formControlName="Actividad"
+        placeholder="Actividad"
       />
     </span>
   </form>
 </span>
 
 <section class="table-widget">
-  @if (loading_data === false) {
+  @if (loadingData === false) {
   <table>
     <caption>
-      Todos los Trabajadores
+      Todos los Usuarios
     </caption>
     <thead>
       <tr>
         <th>Nombre</th>
-        <th>Cargo que Desempeña</th>
-        <th>Correo Electrónico</th>
-        <th>Estado</th>
+        <th>Actividad</th>
+        <th>Director</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      @for (user of userList; track $index) {
+      @for (entity of entitiesList; track $index) {
       <tr>
-        <td>{{ user.Nombre }}</td>
-        <td>{{ user.CI }}</td>
-        <td>{{ user.IdCargo }}</td>
-        <td>
-          <span
-            [ngClass]="{
-              active: user.Activo,
-              inactive: !user.Activo
-            }"
-          >
-            {{ user.Activo ? "Activo" : "Inactivo" }}
-          </span>
-        </td>
+        <td>{{ entity.Nombre }}</td>
+        <td>{{ entity.Actividad }}</td>
+        <td>{{ entity.Director }}</td>
         <td>
           <div class="actions">
             <button
-              (click)="changeActive(user)"
-              class="btn-act change"
-              title="Cambiar acceso al sistema"
+              class="btn-act info"
+              (click)="putTuEdit(entity)"
+              title="Ver toda la información de esta entidad"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -103,24 +110,25 @@
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.5"
+                stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-replace"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-info-square-rounded"
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 9h.01" />
+                <path d="M11 12h1v4h1" />
                 <path
-                  d="M3 3m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"
+                  d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"
                 />
-                <path
-                  d="M15 15m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"
-                />
-                <path d="M21 11v-3a2 2 0 0 0 -2 -2h-6l3 3m0 -6l-3 3" />
-                <path d="M3 13v3a2 2 0 0 0 2 2h6l-3 -3m0 6l3 -3" />
               </svg>
             </button>
 
-            <button class="btn-act edit" (click)="putTuEdit(user)">
+            <button
+              class="btn-act edit"
+              (click)="putTuEdit(entity, true)"
+              title="Editar la información de esta entidad"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -144,7 +152,11 @@
               </svg>
             </button>
 
-            <button class="btn-act delete" (click)="deleteUser(user.Id!)">
+            <button
+              class="btn-act delete"
+              (click)="deleteEntity(entity.Id!)"
+              title="Eliminar del sistema esta entidad"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -171,9 +183,9 @@
       }
     </tbody>
   </table>
-  }@else if (loading_data === true) {
+  }@else if (loadingData === true) {
   <shared-loading-data></shared-loading-data>
-  }@else if (loading_data === undefined) {
+  }@else if (loadingData === undefined) {
   <shared-empty-list></shared-empty-list>
   }
 </section>

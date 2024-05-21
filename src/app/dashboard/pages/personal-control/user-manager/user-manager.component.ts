@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -7,7 +7,8 @@ import { UserService } from '../../../services/user.service';
 import { User } from '../../../interfaces/system-user.interface';
 import { LoadingDataComponent } from '../../../../common/loading-data/loading-data.component';
 import { EmptyListComponent } from '../../../../common/empty-list/empty-list.component';
-import { Environments } from '../../../../environments/env';
+import { environment } from '../../../../../environments/environment.development';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-manager',
@@ -20,11 +21,10 @@ import { Environments } from '../../../../environments/env';
     FormsModule
   ],
   templateUrl: './user-manager.component.html',
-  styleUrl: './user-manager.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+export class UserManagerComponent implements OnInit, OnDestroy {
 
-export class UserManagerComponent implements OnInit {
+  private destroy$ = new Subject<void>();
 
   private userService = inject(UserService);
   private fb = inject(FormBuilder);
@@ -32,7 +32,7 @@ export class UserManagerComponent implements OnInit {
 
   loading_data: boolean | undefined = true;
 
-  public roles = Environments.roles;
+  public roles = environment.roles;
   roles_list = Object.entries(this.roles);
 
   public userList: User[] = [];
@@ -67,6 +67,7 @@ export class UserManagerComponent implements OnInit {
               return;
             }
             
+            this.userForm.reset();
             this.refreshUserList();
           }
         );
@@ -85,7 +86,7 @@ export class UserManagerComponent implements OnInit {
       confirmButtonText: "Sí, cámbialo!"
     }).then((result) => {
       if (result.isConfirmed) {
-        const modify: User = {...user, Activo: !user.Activo }
+        const modify: User = { ID: user.ID };
         this.userService.changeActive(modify).subscribe(
           success => {
             if (success) {
@@ -120,16 +121,18 @@ export class UserManagerComponent implements OnInit {
   }
 
   refreshUserList() {
-    this.userService.getAllUsers().subscribe(
-      list => {
-        if (list.length !== 0) {
-          this.loading_data = false;
-          this.userList = list;
-        } else {
-          this.loading_data = undefined;
+    this.userService.getAllUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        list => {
+          if (list.length !== 0) {
+            this.loading_data = false;
+            this.userList = list;
+          } else {
+            this.loading_data = undefined;
+          }
+          this.cdRef.detectChanges();
         }
-        this.cdRef.detectChanges();
-      }
     )
   }
 
@@ -147,6 +150,11 @@ export class UserManagerComponent implements OnInit {
     this.userForm.controls['Nombre'].setValue(user.Nombre)
     this.userForm.controls['Correo'].setValue(user.Correo)
     this.userForm.controls['Cargo'].setValue(user.Cargo)
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

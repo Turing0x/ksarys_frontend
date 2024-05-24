@@ -31,7 +31,7 @@ export const menu_items: MenuItem[] = [
       },
       {
         name: 'Productos',
-        path: ''
+        path: 'products'
       },
       {
         name: 'Ofertas a la Venta',
@@ -75,7 +75,7 @@ export const menu_items: MenuItem[] = [
       },
     ]
   },
-  
+
 ];
 
 export interface MenuItem {

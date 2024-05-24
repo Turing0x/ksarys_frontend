@@ -12,7 +12,6 @@ import { DPA } from '../interfaces/dpa';
 export class DpaService {
 
   private http = inject(HttpClient)
-  
   private url: string = `${environment.baseUrl}/dpa`
 
   getAllDPAS(): Observable<ServerRespDPA>{

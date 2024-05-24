@@ -14,8 +14,10 @@ export class CharacterDetectDirective {
     if (input.classList.contains('nonNum') &&!Number.isNaN(Number(event.key))) {
       event.preventDefault();
     }
-    if (input.classList.contains('onlyNum') && Number.isNaN(Number(event.key))) {
-      event.preventDefault();
+    if(event.key !== '.'){
+      if (input.classList.contains('onlyNum') && Number.isNaN(Number(event.key))) {
+        event.preventDefault();
+      }
     }
   }
 }

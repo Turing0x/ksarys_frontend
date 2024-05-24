@@ -1,0 +1,87 @@
+<span>
+  <h3>Acciones sobre el Registro</h3>
+</span>
+
+<div class="form">
+  <span style="display: flex; gap: 20px">
+    <select [(ngModel)]="selectValue" [ngModelOptions]="{ standalone: true }">
+      <option value="seleccionar">Selecciona el tipo de Utencilio</option>
+      @for( item of utensiliosTipos; track item ) {
+      <option [value]="item.Id">{{ item.Nombre }}</option>
+      }
+    </select>
+    <button>Adicionar</button>
+  </span>
+
+  <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="addUtensilios()" class="form-form">
+   <div class="container-002">
+    <span>
+      <input
+        type="text"
+        placeholder="Descripcion"
+        formControlName="Descripcion"
+        required
+        [ngStyle]="myForm.controls['Descripcion'].errors && myForm.controls['Descripcion'].touched
+                ?{'border': '1.5px solid #ec1818'}:{}"
+      />
+    </span>
+
+    <span>
+      <h5>Cantidad:</h5>
+      <input
+        type="number"
+        placeholder="Cantidad"
+        formControlName="Cantidad"
+        required
+        [ngStyle]="myForm.controls['Cantidad'].errors && myForm.controls['Cantidad'].touched
+                ?{'border': '1.5px solid #ec1818'}:{}"
+      />
+      <h5>Precio</h5>
+      <input
+        type="number"
+        placeholder="Precio"
+        formControlName="Precio"
+        required
+        [ngStyle]="myForm.controls['Precio'].errors && myForm.controls['Precio'].touched
+                ?{'border': '1.5px solid #ec1818'}:{}"
+      />
+      <h5>importe</h5>
+      <input disabled type="text" placeholder="{{ Importe }}"
+
+      />
+
+      <button
+      [disabled]="myForm.invalid"
+      type="submit"
+    >
+      Adicionar
+    </button>
+    </span>
+
+    <span style="display: flex; justify-content: center ">
+
+    </span>
+   </div>
+
+
+  </form>
+
+  <hr>
+ <span  class="container-003">
+   <div>
+    <button>descargar</button>
+   <button>definir cuentas</button>
+   </div>
+
+   <div>
+    <button>ver ingformr</button>
+    <button>recargar</button>
+    <button>aayuda</button>
+   </div>
+ </span>
+</div>
+
+
+<div>
+  <h4>registro de datos</h4>
+</div>

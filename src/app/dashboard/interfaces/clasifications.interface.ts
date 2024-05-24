@@ -1,7 +1,12 @@
 import { Concept } from "./concepts.interface";
 
 export interface Clasification {
-  _id?:         string;
-  name?:        string;
-  concept?:     Concept;
+  Id?: string;
+    Nombre?: string;
+    IdConcepto?: string;
+    Activo?: boolean;
+    Validado?: boolean;
+    IdUsuario?: string;
 }
+
+

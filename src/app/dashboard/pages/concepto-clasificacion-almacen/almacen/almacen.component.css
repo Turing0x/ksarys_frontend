@@ -1,0 +1,66 @@
+button {
+  color: #264fbb;
+  background-color: white;
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  height: 30px;
+}
+
+select {
+  height: 30px;
+  width: 100%;
+}
+
+div span {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+}
+
+button {
+  color: #264fbb;
+  background-color: white;
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  height: 30px;
+}
+
+form {
+  display: flex;
+   gap: 20px
+}
+
+form input {
+  height: 30px;
+  width: 100%;
+}
+
+
+.form {
+  width: 100%;
+  display: flex;
+  background-color: #d7e1fb;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 20px;
+  gap: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.container001 {
+  display: flex;
+  gap: 20px;
+justify-content: end;
+}

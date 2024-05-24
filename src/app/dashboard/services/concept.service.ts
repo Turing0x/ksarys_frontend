@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, timeout } from 'rxjs';
 
 import { ServerRespConcept } from '../../../assets/globals/server-resp.interface';
 import { Concept } from '../interfaces/concepts.interface';
@@ -9,48 +9,29 @@ import { environment } from '../../../environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
-  
+
 export class ConceptService {
 
   private http = inject(HttpClient)
-  
-  private url: string = `${environment.baseUrl}/concepts`
-  private token!: string;
-
-  private get httpHeaders() {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'access-token': this.token
-    });
-  }
-
-  constructor() {
-    const data = localStorage.getItem('token')
-    if (data) this.token = data
-  }
+  private url: string = `${environment.baseUrl}/conClasifAlmacen/conceptos`
 
   getAllConcepts(): Observable<Concept[]>{
-    return this.http.get<ServerRespConcept>(this.url, {
-      headers: this.httpHeaders
-    }).pipe( map(response => response.data) );
+    return this.http.get<ServerRespConcept>(this.url, ).pipe(
+      timeout(7000),
+      map(response => response.data)
+    );
   }
 
   getConceptById( concept_id: string ): Observable<Concept[]>{
-    return this.http.get<ServerRespConcept>(`${this.url}/${concept_id}`, {
-      headers: this.httpHeaders
-    }).pipe( map(response => response.data) );
+    return this.http.get<ServerRespConcept>(`${this.url}/${concept_id}`).pipe( map(response => response.data) );
   }
 
   saveConcept(concept: object): Observable<boolean> {
-    return this.http.post<ServerRespConcept>(this.url, concept, {
-      headers: this.httpHeaders
-    }).pipe( map(response => response.success === true) );
+    return this.http.post<ServerRespConcept>(this.url, concept).pipe( map(response => response.success === true) );
   }
 
   deleteConceptById(id: string): Observable<boolean> {
-    return this.http.delete<ServerRespConcept>(`${this.url}/${id}`, {
-      headers: this.httpHeaders,
-    }).pipe( map(response => response.success === true ) );
+    return this.http.delete<ServerRespConcept>(`${this.url}/${id}`).pipe( map(response => response.success === true ) );
   }
 
 }

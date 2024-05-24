@@ -2,18 +2,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { Product } from '../interfaces/product.interface';
-import { ServerRespProducts } from '../../../assets/globals/server-resp.interface';
+import { Product, Select } from '../interfaces/product.interface';
+import { ServerRespProducts, ServerRespProductsSelect } from '../../../assets/globals/server-resp.interface';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
-  
+
 export class ProductsService {
 
   private http = inject(HttpClient)
-  
   private url: string = `${environment.baseUrl}/products`
 
   getAllProducts(): Observable<Product[]>{
@@ -21,18 +20,25 @@ export class ProductsService {
       .pipe(map(response => response.data));
   }
 
-  getProductsById( Products_id: string ): Observable<Product[]>{
-    return this.http.get<ServerRespProducts>(`${this.url}/${Products_id}`)
-      .pipe( map(response => response.data) );
+  getAllProductsTable(): Observable<Product[]>{
+    return this.http.get<ServerRespProducts>(`${this.url}/table`)
+      .pipe(map(response => response.data));
+  }
+  getAllProductsSelect(): Observable<Select[]>{
+    return this.http.get<ServerRespProductsSelect>(`${this.url}/select`)
+      .pipe(map(response => response.data));
   }
 
-  saveProducts(Products: object): Observable<boolean> {
+  saveProducts(Products: object): Observable<ServerRespProducts> {
     return this.http.post<ServerRespProducts>(this.url, Products)
-      .pipe( map(response => response.success === true) );
   }
 
-  deleteProductById(id: string): Observable<boolean> {
-    return this.http.delete<ServerRespProducts>(`${this.url}/${id}`)
+  updateProducts(product: Product ): Observable<ServerRespProducts> {
+    return this.http.put<ServerRespProducts>(`${this.url}/${product. Id!}`, product)
+  }
+
+  deleteProductById(Id: string): Observable<boolean> {
+    return this.http.delete<ServerRespProducts>(`${this.url}/${Id}`)
       .pipe(map(response => response.success === true));
   }
 

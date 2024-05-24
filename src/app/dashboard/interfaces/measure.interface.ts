@@ -1,5 +1,7 @@
 export interface Measure {
-  _id?:         string;
-  acronym?:     string;
-  name?:        string;
+  Id: string;
+  Siglas: string;
+  Nombre: string;
+  Activo: boolean;
+  IdUsuario: string;
 }

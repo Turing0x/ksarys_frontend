@@ -10,11 +10,10 @@ import { environment } from '../../../environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
-  
+
 export class UserService {
-  
+
   private http = inject(HttpClient)
-  
   private url: string = `${environment.baseUrl}/users`
 
   getAllUsers(): Observable<User[]>{
@@ -40,7 +39,7 @@ export class UserService {
     return this.http.put<ServerRespUser>(`${this.url}/${userId}`, user)
       .pipe(map(response => response.success === true));
   }
-  
+
   deleteUserById(id: number): Observable<boolean> {
     return this.http.delete<ServerRespUser>(`${this.url}/${id}`)
       .pipe(map(response => response.success === true));

@@ -83,6 +83,15 @@ form span {
   gap: 10px;
 }
 
+form span div {
+  width: 100%;
+}
+
+label {
+  font-size: 15px;
+  opacity: .5;
+}
+
 form input {
   height: 30px;
   width: 100%;

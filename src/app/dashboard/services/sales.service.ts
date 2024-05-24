@@ -12,7 +12,6 @@ import { ServerRespSale } from '../../../assets/globals/server-resp.interface';
 export class SalesService {
 
   private http = inject(HttpClient)
-  
   private url: string = `${environment.baseUrl}/sales`
 
   getAllSales(): Observable<Sale[]>{
@@ -32,7 +31,7 @@ export class SalesService {
   editSale(sale: object): Observable<ServerRespSale> {
     return this.http.put<ServerRespSale>(this.url, sale);
   }
-  
+
   deleteSaleById(id: string): Observable<boolean> {
     return this.http.delete<ServerRespSale>(`${this.url}/${id}`)
       .pipe(map(response => response.success === true));

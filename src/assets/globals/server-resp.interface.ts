@@ -3,8 +3,10 @@ import { Concept } from "../../app/dashboard/interfaces/concepts.interface";
 import { Dependent } from "../../app/dashboard/interfaces/dependents";
 import { DPA } from "../../app/dashboard/interfaces/dpa";
 import { Entity } from "../../app/dashboard/interfaces/entity.interface";
-import { Product } from "../../app/dashboard/interfaces/product.interface";
+import { Measure } from "../../app/dashboard/interfaces/measure.interface";
+import { Product, ProductSelect, Select } from "../../app/dashboard/interfaces/product.interface";
 import { Sale } from "../../app/dashboard/interfaces/sales.interface";
+import { Store } from "../../app/dashboard/interfaces/store.interface";
 import { User } from "../../app/dashboard/interfaces/system-user.interface";
 import { SysWorker } from "../../app/dashboard/interfaces/worker";
 
@@ -26,10 +28,22 @@ export interface ServerRespConcept {
   data:        Concept[];
 }
 
+export interface ServerRespStore {
+  success:     boolean;
+  api_message: string;
+  data:        Store[];
+}
+
 export interface ServerRespProducts {
   success:     boolean;
   api_message: string;
   data:        Product[];
+}
+
+export interface ServerRespProductsSelect {
+  success:     boolean;
+  api_message: string;
+  data:        Select[];
 }
 
 export interface ServerRespEntity {
@@ -60,4 +74,9 @@ export interface ServerRespSale {
   success:     boolean;
   api_message: string;
   data:        Sale[];
+}
+export interface ServerRespMeasure {
+  success:     boolean;
+  api_message: string;
+  data:        Measure[];
 }

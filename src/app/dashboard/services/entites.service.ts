@@ -13,7 +13,6 @@ import { Entity } from '../interfaces/entity.interface';
 export class EntitesService {
 
   private http = inject(HttpClient)
-  
   private url: string = `${environment.baseUrl}/entity`
 
   getAllEntities(): Observable<Entity[]>{
@@ -33,7 +32,7 @@ export class EntitesService {
   editEntity(entity: object): Observable<ServerRespEntity> {
     return this.http.put<ServerRespEntity>(this.url, entity);
   }
-  
+
   deleteEntityById(id: string): Observable<boolean> {
     return this.http.delete<ServerRespEntity>(`${this.url}/${id}`)
       .pipe(map(response => response.success === true));

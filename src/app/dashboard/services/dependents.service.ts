@@ -12,7 +12,6 @@ import { Dependent } from '../interfaces/dependents';
 export class DependentsService {
 
   private http = inject(HttpClient)
-  
   private url: string = `${environment.baseUrl}/dependents`
 
   getAllDependents(): Observable<Dependent[]>{
@@ -38,7 +37,7 @@ export class DependentsService {
     return this.http.put<ServerRespDepen>(`${this.url}/${userId}`, user)
       .pipe(map(response => response.success === true));
   }
-  
+
   deleteDependentById(id: string): Observable<boolean> {
     return this.http.delete<ServerRespDepen>(`${this.url}/${id}`)
       .pipe(map(response => response.success === true));

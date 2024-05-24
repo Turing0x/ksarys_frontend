@@ -1,0 +1,31 @@
+<span>
+  <h3>Acciones sobre el Registro</h3>
+</span>
+
+<div class="form">
+
+  <form autocomplete="off" [formGroup]="myForm" (ngSubmit)="addConcepto()">
+    <input
+      type="text" placeholder="Nombre del Concepto" formControlName="Nombre"
+      [ngStyle]="myForm.controls['Nombre'].errors && myForm.controls['Nombre'].touched
+                ?{'border': '1.5px solid #ec1818'}:{}"
+      >
+    <button
+      [disabled]="myForm.invalid"
+      type="submit"
+    >
+      Adicionar
+    </button>
+  </form>
+<hr>
+    <div class="container001">
+      <button>Informe</button>
+      <button>recargar</button>
+      <button>Ayuda</button>
+    </div>
+
+</div>
+
+
+<h3>Registro de Datos </h3>
+<h5>Mostrar la lista y para eliminar</h5>

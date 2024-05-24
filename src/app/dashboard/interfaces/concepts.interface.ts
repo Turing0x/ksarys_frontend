@@ -1,4 +1,7 @@
 export interface Concept {
-  _id?:         string;
-  name?:        string;
+  Id: string;
+  Nombre: string;
+  Activo: boolean;
+  Validado: boolean;
+  IdUsuario: string;
 }

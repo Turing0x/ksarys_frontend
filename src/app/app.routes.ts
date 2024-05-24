@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     canActivateChild: [savePathGuard],
-    loadChildren: () => 
+    loadChildren: () =>
       import('./dashboard/dashboard.routes')
         .then( m => m.DASHBOARD_ROUTES )
   },

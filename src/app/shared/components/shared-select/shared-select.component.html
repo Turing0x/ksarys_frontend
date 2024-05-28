@@ -1,0 +1,12 @@
+<form [formGroup]="genericForm">
+  <div>
+    <label for="select-clasification">{{ title }}</label>
+    <select [name]="name" [formControlName]="name" id="select-clasification">
+      @if ( genericList ) { @for (clasification of genericList; track $index) {
+      <option value="{{ clasification.Id }}">
+        {{ clasification.Nombre | titlecase }}
+      </option>
+      }}
+    </select>
+  </div>
+</form>

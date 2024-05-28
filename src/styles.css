@@ -17,8 +17,7 @@ body {
 
 input,
 select {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
   border: none;
   border-radius: 5px;
   font-size: 14px;
@@ -26,7 +25,8 @@ select {
 
 input:hover,
 input:focus,
-select:hover select:focus {
+select:hover,
+select:focus {
   border: 1px solid #09f;
   outline: none;
 }
@@ -41,59 +41,75 @@ h1 {
   font-size: x-large;
 }
 
-.form {
-  width: 100%;
-  display: flex;
-  background-color: #d7e1fb;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 10px;
-  padding: 20px;
-  gap: 10px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
 h3 {
   color: #6d6880;
   font-weight: 400;
 }
 
-.form button {
+label {
+  font-size: 15px;
+  opacity: 0.5;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #d7e1fb;
+  border-radius: 10px;
+  padding: 20px;
+  gap: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  margin: 20px 0;
+}
+
+.save-form {
   color: #264fbb;
   background-color: white;
   padding: 5px 15px;
-  border-radius: 5px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   font-size: 16px;
 }
 
-form {
+.clean-form {
+  color: #264fbb;
+  background-color: transparent;
+  padding: 5px 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 5px;
+  transition: box-shadow 0.3s;
+}
+
+.clean-form:hover {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.form-items {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 10px;
 }
 
-form span {
+.form-items span {
   display: flex;
   gap: 10px;
 }
 
-form span div {
+.form-items input,
+select {
+  height: 30px;
   width: 100%;
 }
 
-label {
-  font-size: 15px;
-  opacity: .5;
-}
-
-form input {
-  height: 30px;
+shared-select,
+shared-input {
   width: 100%;
 }
 
@@ -102,7 +118,7 @@ form input {
   border: none;
   text-align: left;
   overflow-x: auto;
-  height: 400px;
+  height: 300px;
 }
 
 .table-widget table {
@@ -115,12 +131,19 @@ form input {
   font-weight: 700;
   text-align: left;
   color: #3c3c3c;
-  margin: 0.5rem 0px;
+  margin: 0.5rem 0;
+}
+
+.table-widget th,
+.table-widget td {
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
 }
 
 .table-widget th {
-  padding: 1.25rem 1rem;
   font-size: 0.875rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .table-widget tfoot {
@@ -128,8 +151,6 @@ form input {
 }
 
 .table-widget td {
-  padding: 0.5rem 1rem;
-  vertical-align: middle;
   color: #8999b0;
 }
 
@@ -144,8 +165,8 @@ form input {
 }
 
 .table-widget td:last-child {
-  border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .table-widget tbody tr {
@@ -164,26 +185,26 @@ form input {
 
 .btn-act {
   display: flex;
-  cursor: pointer;
   align-items: center;
+  cursor: pointer;
   color: #8999b0;
   padding: 5px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
   border: none;
+  border-radius: 5px;
   background-color: transparent;
 }
 
-.edit:hover {
+.btn-act.edit:hover {
   background-color: #219653;
   color: white !important;
 }
-.delete:hover {
+
+.btn-act.delete:hover {
   background-color: #f85653;
   color: white !important;
 }
-.info:hover {
+
+.btn-act.info:hover {
   background-color: #1c7ead;
   color: white !important;
 }
@@ -193,20 +214,17 @@ form input {
   color: white !important;
 }
 
-.active {
-  background-color: #219653;
+.active,
+.inactive {
   border-radius: 10px;
   padding: 5px 15px;
   color: white;
 }
-.inactive {
-  background-color: #f85653;
-  border-radius: 10px;
-  padding: 5px 15px;
-  color: black;
+
+.active {
+  background-color: #219653;
 }
 
-select {
-  height: 30px;
-  width: 100%;
+.inactive {
+  background-color: #f85653;
 }

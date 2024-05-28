@@ -1,30 +1,33 @@
+import { ChangeDetectorRef, Component, effect, inject } from '@angular/core';
 import { Clasification } from './../../../interfaces/clasifications.interface';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, inject } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, Observable, tap, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 
+import { CharacterDetectDirective } from '../../../../directive/character-detect.directive';
+import { Concept } from '../../../interfaces/concepts.interface';
 import { EmptyListComponent } from '../../../../common/empty-list/empty-list.component';
 import { LoadingDataComponent } from '../../../../common/loading-data/loading-data.component';
-import { CharacterDetectDirective } from '../../../../directive/character-detect.directive';
+import { Measure } from '../../../interfaces/measure.interface';
 import { Product } from '../../../interfaces/product.interface';
 import { ProductsService } from '../../../services/product.service';
-import { SalesService } from '../../../services/sales.service';
-import { Concept } from '../../../interfaces/concepts.interface';
+import { SharedInputComponent } from '../../../../shared/components/shared-input/shared-input.component';
+import { SharedSelectComponent } from '../../../../shared/components/shared-select/shared-select.component';
 import { Store } from '../../../interfaces/store.interface';
-import { Measure } from '../../../interfaces/measure.interface';
 
 @Component({
   selector: 'app-product',
   standalone: true,
   imports: [
     CharacterDetectDirective,
-    ReactiveFormsModule,
-    LoadingDataComponent,
-    EmptyListComponent,
     CommonModule,
-    FormsModule
+    EmptyListComponent,
+    FormsModule,
+    LoadingDataComponent,
+    ReactiveFormsModule,
+    SharedInputComponent,
+    SharedSelectComponent,
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
@@ -40,7 +43,6 @@ export class ProductManagerComponent {
   private fb = inject(FormBuilder);
 
   private productService = inject(ProductsService)
-  private salesService = inject(SalesService);
 
   public productSelectResults$!: Observable<any[]>;
   public productsList: Product[] = [];
@@ -232,9 +234,5 @@ export class ProductManagerComponent {
     this.cdRef.detectChanges();
 
   }
-
-
-
-
 
 }

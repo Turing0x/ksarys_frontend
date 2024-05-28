@@ -4,111 +4,127 @@
   <span style="display: flex; justify-content: space-between">
     <h3>Manejar Información</h3>
     <span style="gap: 10px; display: flex">
-      <button (click)="resetForm()">Limpiar Datos</button>
-      <button [disabled]="productForm.disabled" (click)="onSubmit()">
+      <button class="clean-form" (click)="resetForm()">Limpiar Datos</button>
+      <button
+        class="save-form"
+        [disabled]="productForm.disabled"
+        (click)="onSubmit()"
+      >
         {{ editing === true ? "Editar" : "Guardar" }}
       </button>
     </span>
   </span>
-  <form [formGroup]="productForm">
+  <span class="form-items">
     <span>
+      <shared-select
+        [title]="'Clasificacion:'"
+        [name]="'IdClasificacion'"
+        [genericList]="clasificationResults"
+        [genericForm]="productForm"
+      >
+      </shared-select>
 
-      <div>
-        <label for="select-clasification">Clasificacion:</label>
-        <select name="IdClasificacion" formControlName="IdClasificacion" id="select-clasification">
-          @if ( clasificationResults ) { @for (clasification of clasificationResults;
-            track $index) {
-            <option value={{clasification.Id}} >{{ clasification.Nombre | titlecase }}</option>
-            }}
-        </select>
-      </div>
+      <shared-input
+        [title]="'Codigo:'"
+        [class]="'onlyNum'"
+        [name]="'Codigo'"
+        [genericForm]="productForm"
+      >
+      </shared-input>
 
-      <div>
-        <label for="codigo">Codigo:</label>
-        <input characterDetect class="onlyNum" name="Codigo" formControlName="Codigo" placeholder="Codigo"
-          id="codigo" />
-      </div>
-      <div>
-        <label for="nombre">Nombre:</label>
-        <input characterDetect class="olyNum" name="Nombre" formControlName="Nombre" placeholder="Nombre" id="nombre" />
-      </div>
+      <shared-input
+        [title]="'Nombre:'"
+        [class]="'onlyNum'"
+        [name]="'Nombre'"
+        [genericForm]="productForm"
+      >
+      </shared-input>
     </span>
     <span>
-      <div>
-        <label for="select-concept">Concepto:</label>
-        <select name="IdConcepto" formControlName="IdConcepto" id="select-concept">
-          @if (clasificationResults) { @for (concept of conceptoResults; track
-          $index) {
-          <option value={{concept.Id}}>{{ concept.Nombre | titlecase}}</option>
-          }}
-        </select>
-      </div>
-      <div>
-        <label for="select-store">Almacen:</label>
-        <select name="IdAlmacen" formControlName="IdAlmacen" id="select-store">
-          @if (clasificationResults) { @for (store of storeResults; track
-          $index) {
-          <option value={{store.Id}}>{{ store.Nombre | titlecase }}</option>
-          }}
-        </select>
-      </div>
-      <div>
-        <label for="select-um">U/M:</label>
-        <select name="IdUm" formControlName="IdUm" id="select-um">
-          @if (clasificationResults) { @for (measure of meansureResults; track
-          $index) {
-          <option value={{measure.Id}}>{{ measure.Nombre | titlecase }}</option>
-          }}
-        </select>
-      </div>
-      <div>
-        <label for="precio">Precio:</label>
-        <input characterDetect class="onlyNum" name="Precio" formControlName="Precio" placeholder="Precio"
-          id="precio" />
-      </div>
+      <shared-select
+        [title]="'Concepto:'"
+        [genericList]="conceptoResults"
+        [name]="'IdConcepto'"
+        [genericForm]="productForm"
+      >
+      </shared-select>
 
+      <shared-select
+        [title]="'Almacen:'"
+        [genericList]="storeResults"
+        [name]="'IdAlmacen'"
+        [genericForm]="productForm"
+      >
+      </shared-select>
+
+      <shared-select
+        [title]="'U/M:'"
+        [genericList]="meansureResults"
+        [name]="'IdUm'"
+        [genericForm]="productForm"
+      >
+      </shared-select>
+
+      <shared-input
+        [title]="'Precio:'"
+        [class]="'onlyNum'"
+        [name]="'Precio'"
+        [genericForm]="productForm"
+      >
+      </shared-input>
     </span>
     <span>
-      <div>
-        <label for="fecha">Fecha Apertura:</label>
-        <input id="Fecha" type="date" name="Fecha" formControlName="Fecha" placeholder="Fecha" id="fecha" />
-      </div>
-      <div>
-        <label for="conversion">Factor Conversion:</label>
-        <input characterDetect class="onlyNum" name="FactorConversion" formControlName="FactorConversion" id="conversion"
-          placeholder="Factor Conversion" />
-      </div>
+      <shared-input
+        [title]="'Fecha Apertura:'"
+        [class]="'onlyNum'"
+        [name]="'Fecha'"
+        [genericForm]="productForm"
+      >
+      </shared-input>
+
+      <shared-input
+        [title]="'Factor Conversion:'"
+        [class]="'onlyNum'"
+        [name]="'FactorConversion'"
+        [genericForm]="productForm"
+      >
+      </shared-input>
     </span>
-  </form>
+  </span>
 </span>
 
 <section class="table-widget">
   @if (loadingData === false) {
   <table>
-    <caption >
+    <caption>
       Todos los Productos
 
-    <form [formGroup]="productFormFilter" >
-      <span >
-        <div >
-          <label for="select-concept">Busqueda por Concepto:</label>
-          <select name="IdConcepto" formControlName="IdConcepto" id="select-concept" (change)="filterProduct()"
-          style="background-color: #d7e1fb"
-          >
-            <option value="all">Todos</option>
-            @if (clasificationResults) { @for (concept of conceptoResults; track
-            $index) {
-            <option value={{concept.Id}}>{{ concept.Nombre | titlecase}}</option>
-            }}
-          </select>
-        </div>
-
-      </span>
-    </form>
+      <form [formGroup]="productFormFilter">
+        <span>
+          <div>
+            <label for="select-concept">Busqueda por Concepto:</label>
+            <select
+              name="IdConcepto"
+              formControlName="IdConcepto"
+              id="select-concept"
+              (change)="filterProduct()"
+              style="background-color: #d7e1fb"
+            >
+              <option value="all">Todos</option>
+              @if (clasificationResults) { @for (concept of conceptoResults;
+              track $index) {
+              <option value="{{ concept.Id }}">
+                {{ concept.Nombre | titlecase }}
+              </option>
+              }}
+            </select>
+          </div>
+        </span>
+      </form>
     </caption>
     <thead>
       <tr>
-        <th> Concepto</th>
+        <th>Concepto</th>
         <th>Clasificacion</th>
         <th>Nombre</th>
         <th>U/M</th>
@@ -130,7 +146,6 @@
             <button
               class="btn-act info"
               (click)="putTuEdit(product)"
-
               title="Ver toda la información de esta entidad"
             >
               <svg
@@ -183,7 +198,7 @@
             </button>
 
             <button
-            (click)="deleteSale(product.Id!)"
+              (click)="deleteSale(product.Id!)"
               class="btn-act delete"
               title="Eliminar del sistema esta entidad"
             >

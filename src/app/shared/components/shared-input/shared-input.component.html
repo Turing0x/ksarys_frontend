@@ -1,0 +1,12 @@
+<form [formGroup]="genericForm">
+  <div>
+    <label [for]="name.toLocaleLowerCase()">{{ title }}</label>
+    <input
+      characterDetect
+      [class]="class"
+      [name]="name"
+      [formControlName]="name"
+      [id]="name.toLocaleLowerCase()"
+    />
+  </div>
+</form>

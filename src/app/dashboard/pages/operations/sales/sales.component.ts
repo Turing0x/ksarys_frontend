@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subject, Observable, tap, takeUntil } from 'rxjs';
+import { Subject, Observable, tap, takeUntil, of } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { ServerRespDPA } from '../../../../../assets/globals/server-resp.interface';
@@ -30,6 +30,7 @@ import { EntitesService } from '../../../services/entites.service';
     FormsModule
   ],
   templateUrl: './sales.component.html',
+  styleUrl: './sales.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SalesComponent implements OnDestroy, OnInit {
@@ -38,12 +39,16 @@ export class SalesComponent implements OnDestroy, OnInit {
 
   loadingData: boolean | undefined = true;
   editing: boolean = false;
+  tables_list: Table[] = [];
+  pedidos_list:{
+    product: string,
+    cant: string
+  }[] = [];
 
   private salesService = inject(SalesService);
   private productService = inject(ProductsService);
   private dependetService = inject(DependentsService);
   private dpaService = inject(DpaService);
-  private entityService = inject(EntitesService);
 
   private fb = inject(FormBuilder);
   private cdRef = inject(ChangeDetectorRef);
@@ -67,15 +72,18 @@ export class SalesComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.refreshSaleList();
+    const data = localStorage.getItem('tables_list');
+    if (data) {
+      for(const saved of JSON.parse(data) as Table[]) {
+        this.tables_list.push(saved);
+      }
+    }
     this.dpaResults$ = this.dpaService.getAllDPAS();
     this.prodResults$ = this.productService.getAllProducts();
     this.depResults$ = this.dependetService.getAllDependents();
-    // this.entityAreaResult$ = this.entityService.getAllEntitiesArea();
   }
 
   onSubmit() {
-
-    console.log(this.salesForm.value);
 
     Swal.fire({
       title: "Estás seguro?",
@@ -88,6 +96,26 @@ export class SalesComponent implements OnDestroy, OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if (!this.editing) {
+
+          const tableName = this.salesForm.controls['Mesa'].value;
+          const existingTable = this.tables_list.find(table => table.id === tableName);
+          if (existingTable) {
+            existingTable.pedidos.push({
+              product: this.salesForm.controls['Producto'].value,
+              cant: this.salesForm.controls['prod_cant'].value
+            })
+          } else {
+            this.tables_list.push({
+              id: tableName,
+              pedidos: [{
+                product: this.salesForm.controls['Producto'].value,
+                cant: this.salesForm.controls['prod_cant'].value
+              }]
+            })
+          }
+
+          localStorage.setItem('tables_list', JSON.stringify(this.tables_list));
+
           this.salesService.saveSale(this.salesForm.value).pipe(
             tap((resp) => this.handleSuccessfulResponse(resp.success))
           ).subscribe();
@@ -98,6 +126,7 @@ export class SalesComponent implements OnDestroy, OnInit {
         }
       }
     });
+
   }
 
   deleteSale(id: string) {
@@ -178,4 +207,23 @@ export class SalesComponent implements OnDestroy, OnInit {
     this.destroy$.complete();
   }
 
+  putSelectedPedidos(table_id: string) {
+    for (const pedido of this.tables_list.find(table => table.id === table_id)!.pedidos) {
+      console.log(pedido);
+      this.pedidos_list.push({
+        product: pedido.product,
+        cant: pedido.cant
+      })
+    }
+    this.cdRef.detectChanges();
+  }
+
+}
+
+class Table {
+  id!: string;
+  pedidos!: {
+    product: string,
+    cant: string
+  }[]
 }

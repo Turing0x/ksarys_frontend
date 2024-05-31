@@ -74,6 +74,7 @@ export class ProductManagerComponent {
   })
 
   public authStatusChangedEffect = effect(async () => {
+
     this.refreshSaleList();
     this.productSelectResults$ = this.productService.getAllProductsSelect();
     this.productSelectResults$.subscribe(
@@ -89,6 +90,7 @@ export class ProductManagerComponent {
         console.error('Error al obtener los productos', error);
       }
     );
+
 
     this.cdRef.detectChanges();
   }
@@ -229,10 +231,11 @@ export class ProductManagerComponent {
     }
     const { IdConcepto } = this.productFormFilter.value;
 
-    if (IdConcepto != '' && IdConcepto !='all') this.productsList = this.productsList.filter(p => (p.IdConcepto === IdConcepto));
+    if (IdConcepto != '' && IdConcepto != 'all') this.productsList = this.productsList.filter(p => (p.IdConcepto === IdConcepto));
 
     this.cdRef.detectChanges();
 
   }
+
 
 }

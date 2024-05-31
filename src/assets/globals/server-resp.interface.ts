@@ -3,6 +3,7 @@ import { Concept } from "../../app/dashboard/interfaces/concepts.interface";
 import { Dependent } from "../../app/dashboard/interfaces/dependents";
 import { DPA } from "../../app/dashboard/interfaces/dpa";
 import { Entity } from "../../app/dashboard/interfaces/entity.interface";
+import { EntiyArea } from "../../app/dashboard/interfaces/entityArea.interface";
 import { Measure } from "../../app/dashboard/interfaces/measure.interface";
 import { Product, ProductSelect, Select } from "../../app/dashboard/interfaces/product.interface";
 import { Sale } from "../../app/dashboard/interfaces/sales.interface";
@@ -50,6 +51,12 @@ export interface ServerRespEntity {
   success:     boolean;
   api_message: string;
   data:        Entity[];
+}
+
+export interface ServerRespEntityArea {
+  success:     boolean;
+  api_message: string;
+  data:        EntiyArea[];
 }
 
 export interface ServerRespDPA {

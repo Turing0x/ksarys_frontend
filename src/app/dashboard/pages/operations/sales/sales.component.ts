@@ -15,6 +15,8 @@ import { Product } from '../../../interfaces/product.interface';
 import { ProductsService } from '../../../services/product.service';
 import { Dependent } from '../../../interfaces/dependents';
 import { DependentsService } from '../../../services/dependents.service';
+import { EntiyArea } from '../../../interfaces/entityArea.interface';
+import { EntitesService } from '../../../services/entites.service';
 
 @Component({
   selector: 'app-sales',
@@ -41,6 +43,7 @@ export class SalesComponent implements OnDestroy, OnInit {
   private productService = inject(ProductsService);
   private dependetService = inject(DependentsService);
   private dpaService = inject(DpaService);
+  private entityService = inject(EntitesService);
 
   private fb = inject(FormBuilder);
   private cdRef = inject(ChangeDetectorRef);
@@ -48,9 +51,11 @@ export class SalesComponent implements OnDestroy, OnInit {
   public dpaResults$!: Observable<ServerRespDPA>;
   public prodResults$!: Observable<Product[]>;
   public depResults$!: Observable<Dependent[]>;
+  public entityAreaResult$!: Observable<EntiyArea[]>;
 
   public salesList: Sale[] = [];
-  public entityForm: FormGroup = this.fb.group({
+  public salesForm: FormGroup = this.fb.group({
+    IdAreaEntidad: ['', Validators.required],
     Id: ['', Validators.required],
     Fecha: [Date.now(), Validators.required],
     Mesa: ['1', Validators.required],
@@ -66,9 +71,13 @@ export class SalesComponent implements OnDestroy, OnInit {
     this.dpaResults$ = this.dpaService.getAllDPAS();
     this.prodResults$ = this.productService.getAllProducts();
     this.depResults$ = this.dependetService.getAllDependents();
+    this.entityAreaResult$ = this.entityService.getAllEntitiesArea();
   }
 
   onSubmit() {
+
+    console.log(this.salesForm.value);
+
     Swal.fire({
       title: "Estás seguro?",
       text: "Desea crear una entidad con la información antes brindada?",
@@ -80,11 +89,11 @@ export class SalesComponent implements OnDestroy, OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if (!this.editing) {
-          this.salesService.saveSale(this.entityForm.value).pipe(
+          this.salesService.saveSale(this.salesForm.value).pipe(
             tap((resp) => this.handleSuccessfulResponse(resp.success))
           ).subscribe();
         } else {
-          this.salesService.editSale(this.entityForm.value).pipe(
+          this.salesService.editSale(this.salesForm.value).pipe(
             tap((resp) => this.handleSuccessfulResponse(resp.success))
           ).subscribe();
         }
@@ -134,18 +143,18 @@ export class SalesComponent implements OnDestroy, OnInit {
     if (!edit) {
       this.editing = false;
       Object.entries(entity).forEach(value => {
-        if (this.entityForm.contains(value[0])) {
-          this.entityForm.controls[value[0]]
+        if (this.salesForm.contains(value[0])) {
+          this.salesForm.controls[value[0]]
           .setValue(value[1])
         }
       })
-      this.entityForm.disable()
+      this.salesForm.disable()
     } else {
       this.editing = true;
-      this.entityForm.enable()
+      this.salesForm.enable()
       Object.entries(entity).forEach(value => {
-        if (this.entityForm.contains(value[0])) {
-          this.entityForm.controls[value[0]]
+        if (this.salesForm.contains(value[0])) {
+          this.salesForm.controls[value[0]]
           .setValue(value[1])
         }
       })
@@ -154,8 +163,8 @@ export class SalesComponent implements OnDestroy, OnInit {
 
   resetForm() {
     this.editing = false;
-    this.entityForm.reset();
-    this.entityForm.enable();
+    this.salesForm.reset();
+    this.salesForm.enable();
   }
 
   private handleSuccessfulResponse(success: boolean) {

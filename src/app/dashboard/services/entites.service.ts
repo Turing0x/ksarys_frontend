@@ -4,8 +4,9 @@ import { Observable, map } from 'rxjs';
 
 
 import { environment } from '../../../environments/environment.development';
-import { ServerRespEntity } from '../../../assets/globals/server-resp.interface';
+import { ServerRespEntity, ServerRespEntityArea } from '../../../assets/globals/server-resp.interface';
 import { Entity } from '../interfaces/entity.interface';
+import { EntiyArea } from '../interfaces/entityArea.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,11 @@ export class EntitesService {
 
   getAllEntities(): Observable<Entity[]>{
     return this.http.get<ServerRespEntity>(this.url)
+      .pipe(map(response => response.data));
+  }
+
+  getAllEntitiesArea(): Observable<EntiyArea[]>{
+    return this.http.get<ServerRespEntityArea>(`${this.url}/area`)
       .pipe(map(response => response.data));
   }
 

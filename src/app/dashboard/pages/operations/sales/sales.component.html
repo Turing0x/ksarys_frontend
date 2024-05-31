@@ -5,70 +5,85 @@
     <h3>Manejar Información</h3>
     <span style="gap: 10px; display: flex">
       <button (click)="resetForm()">Limpiar Datos</button>
-      <button [disabled]="entityForm.disabled" (click)="onSubmit()">
+      <button [disabled]="salesForm.disabled" (click)="onSubmit()">
         {{ editing === true ? "Editar" : "Guardar" }}
       </button>
     </span>
   </span>
-  <form [formGroup]="entityForm">
+  <form [formGroup]="salesForm">
     <span>
-      <input
-        id="datePicker"
-        type="date"
-        name="Fecha"
-        formControlName="Fecha"
-        placeholder="Fecha"
-      />
-      <input
-        characterDetect
-        class="olyNum"
-        name="Mesa"
-        formControlName="Mesa"
-        placeholder="Mesa"
-      />
-      <input
-        characterDetect
-        class="olyNum"
-        name="Personas"
-        formControlName="Personas"
-        placeholder="Personas"
-      />
+      <div>
+        <label for="">Fecha:</label>
+        <input id="datePicker" type="date" name="Fecha" formControlName="Fecha" placeholder="Fecha" />
+      </div>
+      <div>
+        <label for="">Numero de Mesa:</label>
+        <input characterDetect class="olyNum" name="Mesa" formControlName="Mesa" placeholder="Mesa" />
+      </div>
+      <div>
+        <label for="">Cantidad de Personas:</label>
+        <input characterDetect class="olyNum" name="Personas" formControlName="Personas" placeholder="Personas" />
+      </div>
     </span>
     <span>
-      <select name="IdDependiente" formControlName="IdDependiente">
-        @if (depResults$ | async; as resultObj) { @for (dep of resultObj; track
-        $index) {
-        <option>{{ dep.Nombre }}</option>
-        }}
-      </select>
-      <input
-        characterDetect
-        class="onlyNum"
-        name="Descuento"
-        formControlName="Descuento"
-        placeholder="Descuento"
-      />
+      <div>
+        <label for="">Area de la Entidad:</label>
+        <select name="IdAreaEntidad" formControlName="IdAreaEntidad">
+          @if (entityAreaResult$ | async; as resultObj) { @for (dep of resultObj; track
+          $index) {
+          <option value={{dep.Id}}>{{ dep.Nombre }}</option>
+          }}
+        </select>
+      </div>
+      <div>
+        <label for="">Dependiente:</label>
+        <select name="IdDependiente" formControlName="IdDependiente">
+          @if (depResults$ | async; as resultObj) { @for (dep of resultObj; track
+          $index) {
+          <option value={{dep.Id}}>{{ dep.Nombre }}</option>
+          }}
+        </select>
+      </div>
+
     </span>
+
     <span>
-      <input
-        placeholder="Seleccione el Producto"
-        formControlName="Producto"
-        name="Producto"
-        list="prod-list"
-      />
+      <div>
+        <label for="">Descuento:</label>
+        <input characterDetect class="onlyNum" name="Descuento" formControlName="Descuento" placeholder="Descuento" />
+      </div>
+      <div>
+        <label for="">Observaciones:</label>
+        <input characterDetect class="olyNum" name="Personas" formControlName="Personas" placeholder="Personas" />
+      </div>
+    </span>
+
+
+
+
+
+
+  </form>
+</span>
+
+<span class="form">
+  <form action="">
+    <span>
+      <div>
+        <label for="">Selecciona el Producto:</label>
+        <input placeholder="Seleccione el Producto" formControlName="Producto" name="Producto" list="prod-list" />
       <datalist id="prod-list">
         @if (prodResults$ | async; as resultObj) { @for (product of resultObj;
         track $index) {
-        <option>{{ product.Nombre }}</option>
+        <option value={{product.Id}}>{{ product.Nombre }}</option>
         }}
       </datalist>
-      <input
-        characterDetect
-        class="onlyNum"
-        name="Descuento"
-        formControlName="prod_cant"
-        placeholder="Cantidad del producto"
-      />
+      </div>
+      <div>
+        <label for="">Cantidad del Productos:</label>
+        <input characterDetect class="onlyNum" name="prod_cant" formControlName="prod_cant"
+        placeholder="Cantidad del producto" />
+      </div>
     </span>
   </form>
 </span>
@@ -97,77 +112,33 @@
         <td>{{ entity.Numero }}</td>
         <td>
           <div class="actions">
-            <button
-              class="btn-act info"
-              (click)="putTuEdit(entity)"
-              title="Ver toda la información de esta entidad"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-info-square-rounded"
-              >
+            <button class="btn-act info" (click)="putTuEdit(entity)" title="Ver toda la información de esta entidad">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-info-square-rounded">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M12 9h.01" />
                 <path d="M11 12h1v4h1" />
-                <path
-                  d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"
-                />
+                <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
               </svg>
             </button>
 
-            <button
-              class="btn-act edit"
-              (click)="putTuEdit(entity, true)"
-              title="Editar la información de esta entidad"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-edit"
-              >
+            <button class="btn-act edit" (click)="putTuEdit(entity, true)"
+              title="Editar la información de esta entidad">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"
-                />
-                <path
-                  d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
-                />
+                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
                 <path d="M16 5l3 3" />
               </svg>
             </button>
 
-            <button
-              class="btn-act delete"
-              (click)="deleteSale(entity.Id!)"
-              title="Eliminar del sistema esta entidad"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-trash"
-              >
+            <button class="btn-act delete" (click)="deleteSale(entity.Id!)" title="Eliminar del sistema esta entidad">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M4 7l16 0" />
                 <path d="M10 11l0 6" />

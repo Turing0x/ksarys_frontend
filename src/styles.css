@@ -17,7 +17,8 @@ body {
 
 input,
 select {
-  padding: 0 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   border: none;
   border-radius: 5px;
   font-size: 14px;
@@ -25,8 +26,7 @@ select {
 
 input:hover,
 input:focus,
-select:hover,
-select:focus {
+select:hover select:focus {
   border: 1px solid #09f;
   outline: none;
 }
@@ -41,75 +41,59 @@ h1 {
   font-size: x-large;
 }
 
+.form {
+  width: 100%;
+  display: flex;
+  background-color: #d7e1fb;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 20px;
+  gap: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 h3 {
   color: #6d6880;
   font-weight: 400;
 }
 
-label {
-  font-size: 15px;
-  opacity: 0.5;
-}
-
-.form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #d7e1fb;
-  border-radius: 10px;
-  padding: 20px;
-  gap: 10px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-  margin: 20px 0;
-}
-
-.save-form {
+.form button {
   color: #264fbb;
   background-color: white;
   padding: 5px 15px;
-  border: none;
   border-radius: 5px;
+  border: none;
   cursor: pointer;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   font-size: 16px;
 }
 
-.clean-form {
-  color: #264fbb;
-  background-color: transparent;
-  padding: 5px 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-  border-radius: 5px;
-  transition: box-shadow 0.3s;
-}
-
-.clean-form:hover {
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-}
-
-.form-items {
+form {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 10px;
 }
 
-.form-items span {
+form span {
   display: flex;
   gap: 10px;
 }
 
-.form-items input,
-select {
-  height: 30px;
+form span div {
   width: 100%;
 }
 
-shared-select,
-shared-input {
+label {
+  font-size: 15px;
+  opacity: .5;
+}
+
+form input {
+  height: 30px;
   width: 100%;
 }
 
@@ -118,7 +102,6 @@ shared-input {
   border: none;
   text-align: left;
   overflow-x: auto;
-  height: 300px;
 }
 
 .table-widget table {
@@ -131,19 +114,12 @@ shared-input {
   font-weight: 700;
   text-align: left;
   color: #3c3c3c;
-  margin: 0.5rem 0;
-}
-
-.table-widget th,
-.table-widget td {
-  padding: 0.5rem 1rem;
-  vertical-align: middle;
+  margin: 0.5rem 0px;
 }
 
 .table-widget th {
+  padding: 1.25rem 1rem;
   font-size: 0.875rem;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
 }
 
 .table-widget tfoot {
@@ -151,6 +127,8 @@ shared-input {
 }
 
 .table-widget td {
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
   color: #8999b0;
 }
 
@@ -165,8 +143,8 @@ shared-input {
 }
 
 .table-widget td:last-child {
-  border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .table-widget tbody tr {
@@ -185,26 +163,26 @@ shared-input {
 
 .btn-act {
   display: flex;
-  align-items: center;
   cursor: pointer;
+  align-items: center;
   color: #8999b0;
   padding: 5px;
-  border: none;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  border: none;
   background-color: transparent;
 }
 
-.btn-act.edit:hover {
+.edit:hover {
   background-color: #219653;
   color: white !important;
 }
-
-.btn-act.delete:hover {
+.delete:hover {
   background-color: #f85653;
   color: white !important;
 }
-
-.btn-act.info:hover {
+.info:hover {
   background-color: #1c7ead;
   color: white !important;
 }
@@ -214,17 +192,20 @@ shared-input {
   color: white !important;
 }
 
-.active,
-.inactive {
+.active {
+  background-color: #219653;
   border-radius: 10px;
   padding: 5px 15px;
   color: white;
 }
-
-.active {
-  background-color: #219653;
-}
-
 .inactive {
   background-color: #f85653;
+  border-radius: 10px;
+  padding: 5px 15px;
+  color: black;
+}
+
+select {
+  height: 30px;
+  width: 100%;
 }

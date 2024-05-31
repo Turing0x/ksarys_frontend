@@ -2,16 +2,33 @@
   <div class="card-form">
     <form [formGroup]="loginForm">
       <h2>Iniciar Sesión</h2>
-      <input
-        formControlName="username"
-        placeholder="Nombre de usuario"
-        type="text"
-      />
-      <input
-        formControlName="password"
-        placeholder="CLave de acceso"
-        type="password"
-      />
+      <div class="container-input">
+        <label for="user" >User</label>
+        <input formControlName="username" placeholder="Nombre de usuario" type="text" id="user"/>
+      </div>
+      <div class="container-input">
+        <label for="password" >Password</label>
+
+      <input formControlName="password" placeholder="CLave de acceso" type="password" id="password"/>
+
+      </div>
+
+      <div class="container-input">
+        <label for="">Seleccione la Entidad</label>
+        <select
+        formControlName="entity"
+        name="entitie"
+        id="select-concept"
+      >
+        @if (entitiesSelectResults$ | async; as resultObj) { @for (entitie of resultObj; track
+          $index) {
+          <option value="{{entitie.Id}}">{{ entitie.Nombre }}</option>
+          }}
+      </select>
+</div>
+
+
+
       <button (click)="onSubmit()">Acceder</button>
     </form>
   </div>

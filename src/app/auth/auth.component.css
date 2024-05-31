@@ -25,13 +25,16 @@ form {
   gap: 10px;
 }
 
+
+select,
 input {
-  height: 40px;
-  width: 80%;
+  height: 100%;
+  width:100%;
   border: 1px solid transparent;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
   padding-left: 10px;
 }
+
 
 button {
   background-color: #09f;
@@ -47,4 +50,14 @@ button {
 
 button:hover {
   box-shadow: 0 0 3px rgba(0, 0, 0);
+}
+
+label {
+  display: block;
+}
+
+.container-input {
+  margin-top: 20px;
+  height: 40px;
+  width: 80%;
 }

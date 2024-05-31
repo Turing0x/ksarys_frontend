@@ -18,12 +18,12 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     const lastPath = localStorage.getItem('lastPath');
-  
+
     if (!token || !lastPath) {
       this.router.navigateByUrl('auth');
       this.authService.logout();
       return;
     }
-  
+
   }
 }

@@ -26,7 +26,7 @@ export class AuthService {
 
   public currentUser = computed( () => this._currentUser() )
   public authStatus = computed(() => this._authStatus())
-  
+
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
@@ -38,7 +38,7 @@ export class AuthService {
     this._authStatus.set(AuthStatus.notAuthenticated);
   }
 
-  login(user: { username: string, password: string }): Observable<ServerResponse> {
+  login(user: { username: string, password: string , entity: string}): Observable<ServerResponse> {
     this._authStatus.set(AuthStatus.checking);
     return this.http.post<ServerResponse>(`${this.url}/signin`, user, {
       headers: this.httpHeaders
@@ -60,8 +60,8 @@ export class AuthService {
         }),
       );
   }
-  
-  validateTokenToServer(token: string): Observable<boolean> {    
+
+  validateTokenToServer(token: string): Observable<boolean> {
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'access-token': token

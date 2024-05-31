@@ -45,15 +45,6 @@
     </span>
     <span>
       <div>
-        <label for="">Area de la Entidad:</label>
-        <select name="IdAreaEntidad" formControlName="IdAreaEntidad">
-          @if (entityAreaResult$ | async; as resultObj) { @for (dep of
-          resultObj; track $index) {
-          <option value="{{ dep.Id }}">{{ dep.Nombre }}</option>
-          }}
-        </select>
-      </div>
-      <div>
         <label for="">Dependiente:</label>
         <select name="IdDependiente" formControlName="IdDependiente">
           @if (depResults$ | async; as resultObj) { @for (dep of resultObj;
@@ -86,36 +77,9 @@
         />
       </div>
     </span>
-    <span>
-      <div>
-        <label for="">Selecciona el Producto:</label>
-        <input
-          placeholder="Seleccione el Producto"
-          formControlName="Producto"
-          name="Producto"
-          list="prod-list"
-        />
-        <datalist id="prod-list">
-          @if (prodResults$ | async; as resultObj) { @for (product of resultObj;
-          track $index) {
-          <option value="{{ product.Id }}">{{ product.Nombre }}</option>
-          }}
-        </datalist>
-      </div>
-      <div>
-        <label for="">Cantidad del Productos:</label>
-        <input
-          characterDetect
-          class="onlyNum"
-          name="prod_cant"
-          formControlName="prod_cant"
-          placeholder="Cantidad del producto"
-        />
-      </div>
-    </span>
   </form>
 </span>
-<!-- 
+
 <span class="form">
   <form action="">
     <span>
@@ -123,7 +87,6 @@
         <label for="">Selecciona el Producto:</label>
         <input
           placeholder="Seleccione el Producto"
-          formControlName="Producto"
           name="Producto"
           list="prod-list"
         />
@@ -140,13 +103,12 @@
           characterDetect
           class="onlyNum"
           name="prod_cant"
-          formControlName="prod_cant"
           placeholder="Cantidad del producto"
         />
       </div>
     </span>
   </form>
-</span> -->
+</span>
 
 <section class="table-widget">
   @if (loadingData === false) {

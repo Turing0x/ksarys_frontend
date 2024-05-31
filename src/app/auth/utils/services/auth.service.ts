@@ -38,7 +38,7 @@ export class AuthService {
     this._authStatus.set(AuthStatus.notAuthenticated);
   }
 
-  login(user: { username: string, password: string , entity: string}): Observable<ServerResponse> {
+  login(user: { username: string, password: string , entity: string, area: string}): Observable<ServerResponse> {
     this._authStatus.set(AuthStatus.checking);
     return this.http.post<ServerResponse>(`${this.url}/signin`, user, {
       headers: this.httpHeaders

@@ -11,6 +11,7 @@ import { AuthService } from './utils/services/auth.service';
 import { Observable } from 'rxjs';
 import { Entity } from '../dashboard/interfaces/entity.interface';
 import { EntitesService } from '../dashboard/services/entites.service';
+import { EntiyArea } from '../dashboard/interfaces/entityArea.interface';
 
 @Component({
   selector: 'app-auth',
@@ -34,30 +35,32 @@ export class AuthComponent {
 
   public entitiesSelectResults$!: Observable<Entity[]>;
 
+  public areas: EntiyArea[] = [];
+
   change: boolean = true;
 
   public loginForm: FormGroup = this.fb.group({
     username: ['Raulito', [Validators.required, Validators.minLength(3)]],
     password: ['0000', [Validators.required, Validators.minLength(3)]],
-    entity:[ , [Validators.required]]
+    entity:[ , [Validators.required]],
+    areaEntitie:[ , [Validators.required]]
   });
 
   public authStatusChangedEffect = effect(async () =>{
     this.entitiesSelectResults$ = this.entitesService.getAllEntities();
     this.cdRef.detectChanges();
-
   });
 
   onSubmit() {
 
-    const { username, password , entity} = this.loginForm.value;
+    const { username, password , entity, areaEntitie: area} = this.loginForm.value;
 
-    if ( entity === null ){
+    if ( entity === null || area === null ){
       Swal.fire('Error','Seleccione la Entidad', 'error');
     return;
     }
 
-    this.authService.login({ username, password , entity}).subscribe(
+    this.authService.login({ username, password , entity, area}).subscribe(
       response => {
 
         if (!response.success) {
@@ -69,6 +72,17 @@ export class AuthComponent {
         localStorage.setItem('lastPath', '/dashboard');
         this.router.navigateByUrl('/dashboard');
 
+      }
+    );
+  }
+
+  onEntityChange() {
+    this.entitesService.getAllEntitiesArea(this.loginForm.value.entity).subscribe(
+      response => {
+        for (const area of response) {
+          this.areas.push(area);
+        }
+        this.cdRef.detectChanges();
       }
     );
   }

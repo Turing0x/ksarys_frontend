@@ -3,31 +3,52 @@
     <form [formGroup]="loginForm">
       <h2>Iniciar Sesión</h2>
       <div class="container-input">
-        <label for="user" >User</label>
-        <input formControlName="username" placeholder="Nombre de usuario" type="text" id="user"/>
+        <label for="user">User</label>
+        <input
+          formControlName="username"
+          placeholder="Nombre de usuario"
+          type="text"
+          id="user"
+        />
       </div>
       <div class="container-input">
-        <label for="password" >Password</label>
+        <label for="password">Password</label>
 
-      <input formControlName="password" placeholder="CLave de acceso" type="password" id="password"/>
-
+        <input
+          formControlName="password"
+          placeholder="CLave de acceso"
+          type="password"
+          id="password"
+        />
       </div>
 
       <div class="container-input">
         <label for="">Seleccione la Entidad</label>
         <select
-        formControlName="entity"
-        name="entitie"
-        id="select-concept"
-      >
-        @if (entitiesSelectResults$ | async; as resultObj) { @for (entitie of resultObj; track
-          $index) {
-          <option value="{{entitie.Id}}">{{ entitie.Nombre }}</option>
+          formControlName="entity"
+          name="entitie"
+          id="select-concept"
+          (change)="onEntityChange()"
+        >
+          @if (entitiesSelectResults$ | async; as resultObj) { @for (entitie of
+          resultObj; track $index) {
+          <option value="{{ entitie.Id }}">{{ entitie.Nombre }}</option>
           }}
-      </select>
-</div>
+        </select>
+      </div>
 
-
+      <div class="container-input">
+        <label for="areaEntitie">Seleccione el Area</label>
+        <select
+          formControlName="areaEntitie"
+          name="areaEntitie"
+          id="select-concept"
+        >
+          @for (area of areas; track $index) {
+          <option value="{{ area.Id }}">{{ area.Nombre }}</option>
+          }
+        </select>
+      </div>
 
       <button (click)="onSubmit()">Acceder</button>
     </form>

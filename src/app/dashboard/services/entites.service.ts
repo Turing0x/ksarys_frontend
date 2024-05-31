@@ -21,8 +21,8 @@ export class EntitesService {
       .pipe(map(response => response.data));
   }
 
-  getAllEntitiesArea(): Observable<EntiyArea[]>{
-    return this.http.get<ServerRespEntityArea>(`${this.url}/area`)
+  getAllEntitiesArea(entity_id: string): Observable<EntiyArea[]>{
+    return this.http.get<ServerRespEntityArea>(`${this.url}/area/${entity_id}`, )
       .pipe(map(response => response.data));
   }
 

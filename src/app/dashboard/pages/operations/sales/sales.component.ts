@@ -55,7 +55,6 @@ export class SalesComponent implements OnDestroy, OnInit {
 
   public salesList: Sale[] = [];
   public salesForm: FormGroup = this.fb.group({
-    IdAreaEntidad: ['', Validators.required],
     Id: ['', Validators.required],
     Fecha: [Date.now(), Validators.required],
     Mesa: ['1', Validators.required],
@@ -71,7 +70,7 @@ export class SalesComponent implements OnDestroy, OnInit {
     this.dpaResults$ = this.dpaService.getAllDPAS();
     this.prodResults$ = this.productService.getAllProducts();
     this.depResults$ = this.dependetService.getAllDependents();
-    this.entityAreaResult$ = this.entityService.getAllEntitiesArea();
+    // this.entityAreaResult$ = this.entityService.getAllEntitiesArea();
   }
 
   onSubmit() {

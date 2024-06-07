@@ -1,2 +1,31 @@
-<p>{{ sale.Descuento }}</p>
-,
+<span class="form">
+  <form action="" [formGroup]="salesForm">
+    <span>
+      <div>
+        <label for="">Selecciona el Producto:</label>
+        <input
+          placeholder="Seleccione el Producto"
+          name="Producto"
+          formControlName="Producto"
+          list="prod-list"
+        />
+        <datalist id="prod-list">
+          @if (ofertasResults$ | async; as resultObj) { @for (oferta of
+          resultObj; track $index) {
+          <option [value]="oferta.Id">{{ oferta.Nombre }}</option>
+          }}
+        </datalist>
+      </div>
+      <div>
+        <label for="">Cantidad del Productos:</label>
+        <input
+          characterDetect
+          class="onlyNum"
+          formControlName="prod_cant"
+          name="prod_cant"
+          placeholder="Cantidad del producto"
+        />
+      </div>
+    </span>
+  </form>
+</span>

@@ -7,6 +7,7 @@ import { WorkersManagerComponent } from "./pages/personal-control/workers-manage
 import { EntitiesManagerComponent } from "./pages/globla-data/entities-manager/entities-manager.component";
 import { SalesComponent } from "./pages/operations/sales/sales.component";
 import { ProductManagerComponent } from "./pages/products/product/product.component";
+import { SaleDetailComponent } from "./pages/operations/components/sale-detail/sale-detail.component";
 
 export const DASHBOARD_ROUTES: Routes = [
   {
@@ -32,9 +33,14 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'sales',
         component: SalesComponent,
-      },{
+      },
+      {
         path: 'products',
-        component:ProductManagerComponent
+        component: ProductManagerComponent
+      },
+      {
+        path: 'sale/:id',
+        component: SaleDetailComponent
       },
       {
         path: '**',

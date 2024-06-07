@@ -16,7 +16,8 @@ import { ProductsService } from '../../../services/product.service';
 import { Dependent } from '../../../interfaces/dependents';
 import { DependentsService } from '../../../services/dependents.service';
 import { EntiyArea } from '../../../interfaces/entityArea.interface';
-import { EntitesService } from '../../../services/entites.service';
+import { SplitDatePipe } from '../../../../pipes/split_date.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sales',
@@ -27,7 +28,8 @@ import { EntitesService } from '../../../services/entites.service';
     LoadingDataComponent,
     EmptyListComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    SplitDatePipe
   ],
   templateUrl: './sales.component.html',
   styleUrl: './sales.component.css',
@@ -39,16 +41,12 @@ export class SalesComponent implements OnDestroy, OnInit {
 
   loadingData: boolean | undefined = true;
   editing: boolean = false;
-  tables_list: Table[] = [];
-  pedidos_list:{
-    product: string,
-    cant: string
-  }[] = [];
 
   private salesService = inject(SalesService);
   private productService = inject(ProductsService);
   private dependetService = inject(DependentsService);
   private dpaService = inject(DpaService);
+  private router = inject(Router);
 
   private fb = inject(FormBuilder);
   private cdRef = inject(ChangeDetectorRef);
@@ -62,22 +60,16 @@ export class SalesComponent implements OnDestroy, OnInit {
   public salesForm: FormGroup = this.fb.group({
     Id: ['', Validators.required],
     Fecha: [Date.now(), Validators.required],
-    Mesa: ['1', Validators.required],
-    Personas: ['1', Validators.required],
+    Mesa: ['', Validators.required],
+    Personas: ['', Validators.required],
     IdDependiente: ['', Validators.required],
     Descuento: ['', Validators.required],
     Producto: ['', Validators.required],
-    prod_cant: ['', Validators.required],
+    Observaciones: ['', Validators.required],
   });
 
   ngOnInit(): void {
     this.refreshSaleList();
-    const data = localStorage.getItem('tables_list');
-    if (data) {
-      for(const saved of JSON.parse(data) as Table[]) {
-        this.tables_list.push(saved);
-      }
-    }
     this.dpaResults$ = this.dpaService.getAllDPAS();
     this.prodResults$ = this.productService.getAllProducts();
     this.depResults$ = this.dependetService.getAllDependents();
@@ -85,48 +77,39 @@ export class SalesComponent implements OnDestroy, OnInit {
 
   onSubmit() {
 
-    Swal.fire({
-      title: "Estás seguro?",
-      text: "Desea crear una entidad con la información antes brindada?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        if (!this.editing) {
+    const mesa = this.salesForm.get('Mesa')?.value;
+    const exist = this.salesList.some(sale => sale.Mesa?.toString() === mesa.toString());
 
-          const tableName = this.salesForm.controls['Mesa'].value;
-          const existingTable = this.tables_list.find(table => table.id === tableName);
-          if (existingTable) {
-            existingTable.pedidos.push({
-              product: this.salesForm.controls['Producto'].value,
-              cant: this.salesForm.controls['prod_cant'].value
-            })
+    if (exist) {
+      Swal.fire({
+        title: "Mesa ocupada",
+        text: "Ya existe una comanda con esta mesa",
+        icon: "error"
+      });
+    } else {
+      Swal.fire({
+        title: "Estás seguro?",
+        text: "Desea crear una comanda con la información antes brindada?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirmar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (!this.editing) {
+            this.salesService.saveSale(this.salesForm.value).pipe(
+              tap((resp) => this.handleSuccessfulResponse(resp.success))
+            ).subscribe();
           } else {
-            this.tables_list.push({
-              id: tableName,
-              pedidos: [{
-                product: this.salesForm.controls['Producto'].value,
-                cant: this.salesForm.controls['prod_cant'].value
-              }]
-            })
+            this.salesService.editSale(this.salesForm.value).pipe(
+              tap((resp) => this.handleSuccessfulResponse(resp.success))
+            ).subscribe();
           }
-
-          localStorage.setItem('tables_list', JSON.stringify(this.tables_list));
-
-          this.salesService.saveSale(this.salesForm.value).pipe(
-            tap((resp) => this.handleSuccessfulResponse(resp.success))
-          ).subscribe();
-        } else {
-          this.salesService.editSale(this.salesForm.value).pipe(
-            tap((resp) => this.handleSuccessfulResponse(resp.success))
-          ).subscribe();
         }
-      }
-    });
+      });
 
+    }
   }
 
   deleteSale(id: string) {
@@ -189,6 +172,10 @@ export class SalesComponent implements OnDestroy, OnInit {
     }
   }
 
+  onRowClick(id: string) {
+    this.router.navigate(['/dashboard/sale', id]);
+  }
+
   resetForm() {
     this.editing = false;
     this.salesForm.reset();
@@ -205,17 +192,6 @@ export class SalesComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  putSelectedPedidos(table_id: string) {
-    for (const pedido of this.tables_list.find(table => table.id === table_id)!.pedidos) {
-      console.log(pedido);
-      this.pedidos_list.push({
-        product: pedido.product,
-        cant: pedido.cant
-      })
-    }
-    this.cdRef.detectChanges();
   }
 
 }

@@ -5,8 +5,8 @@
         <label for="">Selecciona el Producto:</label>
         <input
           placeholder="Seleccione el Producto"
-          name="Producto"
-          formControlName="Producto"
+          name="IdOferta"
+          formControlName="IdOferta"
           list="prod-list"
         />
         <datalist id="prod-list">
@@ -21,11 +21,39 @@
         <input
           characterDetect
           class="onlyNum"
-          formControlName="prod_cant"
-          name="prod_cant"
+          formControlName="Cantidad"
+          name="Cantidad"
           placeholder="Cantidad del producto"
         />
       </div>
+
+      <button class="save-form" (click)="onSubmit()">Guardar</button>
     </span>
   </form>
 </span>
+
+<section class="table-widget">
+  <table>
+    <caption>
+      Comandas activas
+    </caption>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Importe</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (comanda of cdetalles; track $index) {
+      <tr>
+        <td>{{ comanda.IdOferta }}</td>
+        <td>{{ comanda.Cantidad }}</td>
+        <td>{{ comanda.ImporteDescuento }}</td>
+        <td>{{ comanda.Importe }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</section>

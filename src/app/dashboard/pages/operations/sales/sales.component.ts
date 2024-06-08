@@ -195,11 +195,3 @@ export class SalesComponent implements OnDestroy, OnInit {
   }
 
 }
-
-class Table {
-  id!: string;
-  pedidos!: {
-    product: string,
-    cant: string
-  }[]
-}

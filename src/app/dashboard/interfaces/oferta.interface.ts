@@ -7,5 +7,5 @@ export interface Oferta {
   Activo?: boolean;
   Validado?: string;
   IdUsuario?: string;
-  Precio?: string;
+  Precio?: number;
 }

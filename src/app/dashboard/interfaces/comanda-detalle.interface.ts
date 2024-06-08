@@ -2,8 +2,10 @@ export interface ComandaDetalles {
   Id?: string;
   IdComanda?: string;
   IdOferta?: string;
-  Cantidad?: string;
-  Importe?: string;
-  ImporteDescuento?: string;
+  Cantidad?: number;
+  Importe?: number;
+  ImporteDescuento?: number;
   IdUsuario?: string;
+  Nombre?: string;
+  Precio?: string;
 }

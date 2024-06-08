@@ -19,6 +19,11 @@ export class ComandasDetallesService {
       .pipe(map(response => response.data));
   }
 
+  getComandaDetalleByComanda(id: string): Observable<ComandaDetalles[]>{
+    return this.http.get<CDetallesResponse>(`${this.url}/cdetalle/${id}`)
+      .pipe(map(response => response.data));
+  }
+
   getCDetalleById( id: string ): Observable<ComandaDetalles[]>{
     return this.http.get<CDetallesResponse>(`${this.url}/${id}`)
       .pipe(map(response => response.data));
